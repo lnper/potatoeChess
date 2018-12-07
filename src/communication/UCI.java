@@ -7,7 +7,7 @@ import move.ThreadHandler;
 import move.Moves;
 
 /*
- * Cette classe permet la communication avec Arena. Il s'agit du langage UCI, pour Universal Chess Interface. Pour plus d'infos, aller sur la page officielle de l'uci.
+ * Cette classe permet la communication avec Arena. Il s'agit du langage UCI, pour Universal Chess Interface. Pour plus d'infos, aller sur la page http://wbec-ridderkerk.nl/html/UCIProtocol.html.
  */
 
 public class UCI {
@@ -132,6 +132,10 @@ public class UCI {
         
     }
     
+    
+    /*
+     * Methodes utiles
+     */
     
     private static String makeMove(String input) {
         int moveFrom_vertical = (input.charAt(0) - 'a');
