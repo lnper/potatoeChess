@@ -1,35 +1,13 @@
 package board;
 
-<<<<<<< HEAD:src/board/ChessBoardGenerator.java
-import java.util.Arrays;
-
-import move.Moves;
-
-public class ChessBoardGenerator {
-
-
-	public static final boolean WhiteToMove = false;
-
-
-	// Initialisation du plateau de jeu
-	public static void initiateChessBoard() {
-		String chessBoard[][]={
-				{"r","n","b","q","k","b","n","r"},
-				{"p","p","p","p","p","p","p","p"},
-				{" "," "," "," "," "," "," "," "},
-				{" "," "," "," "," "," "," "," "},
-				{" "," "," "," "," "," "," "," "},
-				{" "," "," "," "," "," "," "," "},
-				{"P","P","P","P","P","P","P","P"},
-				{"R","N","B","Q","K","B","N","R"}};
-=======
 public class Board {
 	
-	public String chessBoard[][]; 
+	public static final boolean WhiteToMove = false;
+	public static String chessBoard[][] = {}; 
 	
-	//initialise le plateau 
+	// Initialise le plateau 
 	public Board(){
-		this.chessBoard = new String[][]{
+		chessBoard = new String[][]{
 			{"r","n","b","q","k","b","n","r"},
 			{"p","p","p","p","p","p","p","p"},
 			{" "," "," "," "," "," "," "," "},
@@ -38,7 +16,7 @@ public class Board {
 			{" "," "," "," "," "," "," "," "},
 			{"P","P","P","P","P","P","P","P"},
 			{"R","N","B","Q","K","B","N","R"}};
->>>>>>> legalmoves:src/board/Board.java
+
 	}
 
 
@@ -52,6 +30,14 @@ public class Board {
 
 
 	public static void print() {
+		for(int i = 0 ; i<chessBoard.length ; i++) {
+			System.out.print("{");
+			for(int j = 0 ; j<chessBoard.length ; j++) {
+				if(j<chessBoard.length-1) System.out.print(chessBoard[i][j]+",");
+				else System.out.print(chessBoard[i][j]);
+			}
+			System.out.println("}");
+		}
 		
 	}
 

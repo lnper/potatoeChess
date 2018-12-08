@@ -122,7 +122,7 @@ public class UCI {
 
 			else if (input.contains(FEN)) {
 				input=input.substring(FEN.length()+1);
-				ChessBoardGenerator.importFEN(input);
+				Board.importFEN(input);
 			}
 
 			// Prendre en consideration l'ensemble des mouvements ordonnes
@@ -151,7 +151,7 @@ public class UCI {
 	// Calculer le meilleur mouvement pour jouer
 	public static void inputGo() {
 		String move = "";
-		if (ChessBoardGenerator.WhiteToMove) {
+		if (Board.WhiteToMove) {
 			move = ThreadHandler.calculateBestMoveWhite(); // => retourne un mouvement qu'il faut maintenant system.out
 			COMPT++;
 		}
@@ -178,7 +178,7 @@ public class UCI {
 
 	// Mettre a jour l'affichage
 	public static void inputPrint() {
-		Board.print();
+		if(Board.chessBoard.length>1) Board.print();
 	}
 
 
