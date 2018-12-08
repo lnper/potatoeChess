@@ -142,8 +142,7 @@ public class UCI {
 
 	// Calculer le meilleur mouvement pour jouer
 	public static void inputGo() {
-		String move = "b2b4";
-		ThreadHandler.calculateBestMove(); // => retourne un mouvement qu'il faut maintenant system.out
+		String move = ThreadHandler.calculateBestMove(); // => retourne un mouvement qu'il faut maintenant system.out
 		System.out.println("bestmove "+move);
 	}
 
