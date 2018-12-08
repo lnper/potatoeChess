@@ -29,6 +29,8 @@ public class UCI {
 	static String QUIT = "quit";
 	static String PRINT = "print";
 
+	public static int COMPT = 0;
+
 	public static void uciCommunication() {
 
 		Scanner input = new Scanner(System.in);
@@ -87,18 +89,18 @@ public class UCI {
 		//options go here
 		System.out.println("uciok");
 	}
-	
+
 	public static void inputSetOption(String inputString) {
 	}
-	
+
 	public static void inputIsReady() {
 		System.out.println("readyok");
 	}
-	
+
 	public static void inputUCINewGame() {
-        ChessBoardGenerator.initiateChessBoard();
-    }
-	
+		//ChessBoardGenerator.initiateChessBoard();
+	}
+
 	public static void inputPosition(String input) {
 
 		// Gerer l'erreur d'une mauvaise entree (uniquement pour les tests sur console)
@@ -106,7 +108,7 @@ public class UCI {
 		}
 
 		else {
-			
+
 			input = input.substring(POSITION.length()+1).concat(" ");
 
 			boolean accepted = false;
@@ -117,10 +119,15 @@ public class UCI {
 				accepted = true;
 			}
 
+			else if (input.contains(FEN)) {
+				input=input.substring(FEN.length()+1);
+				ChessBoardGenerator.importFEN(input);
+			}
+
 			// Prendre en consideration l'ensemble des mouvements ordonnes
 			if (input.contains(MOVES)) {
 				input = input.substring(input.indexOf(MOVES) + MOVES.length()+1);
-				
+
 				while (input.length() > 0) {
 					String move;
 					// Nous nous interessons au premier mouvement de la String
@@ -128,23 +135,40 @@ public class UCI {
 					// Nous le traitons
 					ChessBoardGenerator.readMove(move);
 					// Nous enlevons ce mouvement a la String puisqu'il a ete traite
-	                input = input.substring(input.indexOf(' ')+1);
+					input = input.substring(input.indexOf(' ')+1);
 				}
 				accepted = true;
 			}
-			
+
 			else if(accepted == false) {
 			}
 		}
 
-		
+
 	}
 
 	// Calculer le meilleur mouvement pour jouer
 	public static void inputGo() {
-		String move = ThreadHandler.calculateBestMove(); // => retourne un mouvement qu'il faut maintenant system.out
+		String move = "";
+		if (ChessBoardGenerator.WhiteToMove) {
+			move = ThreadHandler.calculateBestMoveWhite(); // => retourne un mouvement qu'il faut maintenant system.out
+			COMPT++;
+		}
+		else {
+			move = ThreadHandler.calculateBestMoveBlack(); // => retourne un mouvement qu'il faut maintenant system.out
+			COMPT++;
+		}
+		/*if(COMPT==0) move = "b2b3";
+		else if(COMPT==1) move = "b7b6";
+		else if(COMPT==2) move = "b3b4";
+		else if(COMPT==3) move = "b6b5";
+		
+		*/
+		COMPT++;
+
 		System.out.println("bestmove "+move);
 	}
+
 
 	// Quitter l'uci
 	public static void inputQuit() {
@@ -157,11 +181,11 @@ public class UCI {
 	}
 
 
-	
+
 	/* ---------------------------------------------------------------------------------------------------------------------------------------------------
 	 * ----------------------------------------------------------------- Methodes utiles ----------------------------------------------------------------- 
 	 * ---------------------------------------------------------------------------------------------------------------------------------------------------
-	*/ 
+	 */ 
 
-    
+
 }

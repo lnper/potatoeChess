@@ -7,6 +7,9 @@ import move.Moves;
 public class ChessBoardGenerator {
 
 
+	public static final boolean WhiteToMove = false;
+
+
 	// Initialisation du plateau de jeu
 	public static void initiateChessBoard() {
 		String chessBoard[][]={
@@ -32,6 +35,11 @@ public class ChessBoardGenerator {
 
 	public static void print() {
 		
+	}
+
+
+	public static void importFEN(String input) {
+			
 	}
 
 
