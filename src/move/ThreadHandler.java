@@ -1,7 +1,5 @@
 package move;
 
-import java.util.concurrent.*;
-
 public class ThreadHandler {
 
     public static String calculateBestMove() {

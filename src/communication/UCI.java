@@ -2,11 +2,12 @@ package communication;
 
 import java.util.Scanner;
 
-import board.ChessBoardGenerator;
-import move.ThreadHandler;
+import board.Board;
 import move.Moves;
+import move.ThreadHandler;
 
-/*
+
+/*	
  * Cette classe permet la communication avec Arena. Il s'agit du langage UCI, pour Universal Chess Interface. Pour plus d'infos, aller sur la page http://wbec-ridderkerk.nl/html/UCIProtocol.html.
  */
 
@@ -96,7 +97,7 @@ public class UCI {
 	}
 	
 	public static void inputUCINewGame() {
-        ChessBoardGenerator.initiateChessBoard();
+        Board board = new Board();
     }
 	
 	public static void inputPosition(String input) {
@@ -113,7 +114,7 @@ public class UCI {
 			if (input.contains(STARTPOSITION)) {
 				input = input.substring(input.indexOf(STARTPOSITION) + STARTPOSITION.length()+1);
 				//ChessBoardGenerator.importFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-				ChessBoardGenerator.initiateChessBoard();
+				Board board = new Board();
 				accepted = true;
 			}
 
@@ -126,7 +127,7 @@ public class UCI {
 					// Nous nous interessons au premier mouvement de la String
 					move = input.substring(0,4);
 					// Nous le traitons
-					ChessBoardGenerator.readMove(move);
+					Board.readMove(move);
 					// Nous enlevons ce mouvement a la String puisqu'il a ete traite
 	                input = input.substring(input.indexOf(' ')+1);
 				}
@@ -153,7 +154,7 @@ public class UCI {
 
 	// Mettre a jour l'affichage
 	public static void inputPrint() {
-		ChessBoardGenerator.print();
+		Board.print();
 	}
 
 
