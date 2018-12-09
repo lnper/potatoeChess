@@ -58,7 +58,7 @@ public class Board {
 		int asciiEnd = (int) move.charAt(2);
 		int positionXEnd = asciiEnd-97;
 		String resultPositionXEnd = String.valueOf(positionXEnd);
-		// Pour la position Y d'arrivee
+		// Pour la position Y d'arrivee	
 		int positionYEnd = 8-Character.getNumericValue(move.charAt(3));
 		String resultPositionYEnd = String.valueOf(positionYEnd);
 

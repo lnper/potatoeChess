@@ -99,9 +99,9 @@ public class UCI {
 	}
 
 	public static void inputUCINewGame() {
-        Board board = new Board();
-    }
-	
+		Board board = new Board();
+	}
+
 	public static void inputPosition(String input) {
 
 		// Gerer l'erreur d'une mauvaise entree (uniquement pour les tests sur console)
@@ -151,16 +151,10 @@ public class UCI {
 	// Calculer le meilleur mouvement pour jouer
 	public static void inputGo() {
 		String move = "";
-		
-		/*if (Board.WhiteToMove) {
-			move = ThreadHandler.calculateBestMoveWhite(); // => retourne un mouvement qu'il faut maintenant system.out
-			COMPT++;
-		}
-		else {
-			move = ThreadHandler.calculateBestMoveBlack(); // => retourne un mouvement qu'il faut maintenant system.out
-			COMPT++;
-		}*/
-		
+
+		move = ThreadHandler.calculateBestMove(); // => retourne un mouvement qu'il faut maintenant system.out
+		COMPT++;
+
 		if(COMPT==0) move = "b2b3";
 		else if(COMPT==1) move = "b7b6";
 		else if(COMPT==2) move = "b3b4";
