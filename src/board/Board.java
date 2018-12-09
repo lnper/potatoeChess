@@ -1,5 +1,7 @@
 package board;
 
+import java.util.Arrays;
+
 public class Board {
 
 	public static final boolean WhiteToMove = false;
