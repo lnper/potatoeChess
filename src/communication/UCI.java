@@ -116,7 +116,7 @@ public class UCI {
 			if (input.contains(STARTPOSITION)) {
 				input = input.substring(input.indexOf(STARTPOSITION) + STARTPOSITION.length()+1);
 				//ChessBoardGenerator.importFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-				Board board = new Board();
+				Board.initialize();
 				accepted = true;
 			}
 
@@ -151,20 +151,20 @@ public class UCI {
 	// Calculer le meilleur mouvement pour jouer
 	public static void inputGo() {
 		String move = "";
-		if (Board.WhiteToMove) {
+		
+		/*if (Board.WhiteToMove) {
 			move = ThreadHandler.calculateBestMoveWhite(); // => retourne un mouvement qu'il faut maintenant system.out
 			COMPT++;
 		}
 		else {
 			move = ThreadHandler.calculateBestMoveBlack(); // => retourne un mouvement qu'il faut maintenant system.out
 			COMPT++;
-		}
-		/*if(COMPT==0) move = "b2b3";
+		}*/
+		
+		if(COMPT==0) move = "b2b3";
 		else if(COMPT==1) move = "b7b6";
 		else if(COMPT==2) move = "b3b4";
 		else if(COMPT==3) move = "b6b5";
-		
-		*/
 		COMPT++;
 
 		System.out.println("bestmove "+move);
