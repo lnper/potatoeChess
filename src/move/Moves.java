@@ -41,7 +41,54 @@ public class Moves {
 
 	//mouvements legaux des pions en position i,j
 	public static ArrayList<String> legalMoveP(Board board, int i, int j){
-		return new ArrayList<String>();
+		ArrayList<String> possiblePawnMoves = new ArrayList<>();
+		//mouvement 2 en avant
+		if(i==6 && isEmptyCase(board.chessBoard[i-1][j]) && isEmptyCase(board.chessBoard[i-2][j])){
+			if(simulateMoveForKingCheck(board, i, j, i-2, j)){
+				possiblePawnMoves.add(""+i+j+(i-2)+(j)+" ");
+			}
+		}
+		//mouvement de 1 en avant sans promotion
+		if(i>=2 && isEmptyCase(board.chessBoard[i-1][j])){
+			if(simulateMoveForKingCheck(board, i, j, i-1, j)){
+				possiblePawnMoves.add(""+i+j+(i-1)+(j)+" ");
+			}
+		}
+		//mouvement de 1 en avant avec promotion
+		if(i==1 && isEmptyCase(board.chessBoard[0][j])){
+			String[] promot={"Q","R","B","K"};
+			for(String piece:promot){
+				if(simulateMoveForKingCheck(board, i, j, i-1, j)){
+					possiblePawnMoves.add(""+i+j+(i-1)+(j)+" "+piece);
+				}
+			}
+		}
+		//capture sans promotion
+		if(i>=2){
+			for(int k=-1;k<=1;k+=2){
+				if(isInBoard(i-1, j+k) && isEnnemy(board.chessBoard[i-1][j+k])){
+					String caseEvaluee = board.chessBoard[i-1][j+k];
+					if(simulateMoveForKingCheck(board, i, j, i-1, j+k)){
+						possiblePawnMoves.add(""+i+j+(i-1)+(j+k)+caseEvaluee);
+					}
+				}
+			}
+		}
+		//capture avec promotion
+		if(i==1){
+			for(int k=-1;k<=1;k+=2){
+				if(isInBoard(0, j+k) && isEnnemy(board.chessBoard[0][j+k])){
+					String caseEvaluee = board.chessBoard[0][j+k];
+					String[] promot={"Q","R","B","K"};
+					for(String piece:promot){
+						if(simulateMoveForKingCheck(board, i, j, 0, j+k)){
+							possiblePawnMoves.add(""+i+j+(0)+(j+k)+caseEvaluee+piece);
+						}
+					}
+				}
+			}
+		}
+		return possiblePawnMoves;
 	}
 
 	//mouvements legaux des tours en position i,j
