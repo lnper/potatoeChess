@@ -1,5 +1,7 @@
 package board;
 
+import java.util.Arrays;
+
 public class Board {
 	
 	public String chessBoard[][]; 
@@ -27,8 +29,11 @@ public class Board {
 	}
 
 
-	public static void print() {
-		
+	public void print() {
+		 for (int i=0;i<8;i++) {
+				 System.out.println(Arrays.toString(chessBoard[i])+" "+i); 
+	        }
+		 	System.out.println(" 0  1  2  3  4  5  6  7 ");
 	}
 
 

@@ -154,7 +154,7 @@ public class UCI {
 
 	// Mettre a jour l'affichage
 	public static void inputPrint() {
-		Board.print();
+	
 	}
 
 
