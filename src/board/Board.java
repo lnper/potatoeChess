@@ -124,8 +124,8 @@ public class Board {
 		System.out.println(" 0 1 2 3 4 5 6 7");
 
 		System.out.println("");
-		System.out.println("Evaluation des points blancs : "+Evaluation.evaluate()[0]);
-		System.out.println("Evaluation des points noirs : "+Evaluation.evaluate()[1]);
+		System.out.println("Evaluation des points blancs : "+Evaluation.evaluate(this, true));
+		System.out.println("Evaluation des points noirs : "+Evaluation.evaluate(this, false));
 	}
 
 	public String[][] getChessBoard(){ return this.chessBoard; }

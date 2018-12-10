@@ -31,7 +31,7 @@ public class UCI {
 	static String PRINT = "print";
 	
 	public static Board board;
-	public static Boolean couleur;
+	public static Boolean isWhite;
 
 	public static boolean PLAYER_WHITE = true;
 
@@ -184,12 +184,11 @@ public class UCI {
 
 	// Mettre a jour l'affichage
 	public static void inputPrint() {
-		if(Board.chessBoard.length>1) Board.print();
+		if(board.getChessBoard().length>1) board.print();
 		
 		String player;
-		if (PLAYER_WHITE) player = "blancs";
-		else if (!PLAYER_WHITE) player = "noirs";
-		else player = "NOONE";
+		if (isWhite) player = "blancs";
+		else player = "noirs";
 		System.out.println("Nous jouons les "+player);
 	}
 
