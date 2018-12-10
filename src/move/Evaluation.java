@@ -31,11 +31,11 @@ public class Evaluation {
 		int pointsPositionWhite = calculatePointsPositionWhite(analyse);
 		int pointsPositionBlack = calculatePointsPositionBlack(analyse);
 		
-		int resultWhite = pointsPiecesWhite - pointsPositionWhite;
-		int resultBlack = pointsPiecesBlack - pointsPositionBlack;
+		int resultWhite = pointsPiecesWhite + pointsPositionWhite;
+		int resultBlack = pointsPiecesBlack + pointsPositionBlack;
 		
-		if(player) return resultWhite;
-		else return resultBlack;
+		if(player) return resultWhite - resultBlack;
+		else return resultBlack - resultWhite;
 	}
 
 
