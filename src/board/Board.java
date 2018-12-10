@@ -6,11 +6,13 @@ import java.util.Arrays;
 
 public class Board {
 
-	public static final boolean WhiteToMove = false;
-	public static String chessBoard[][] = {}; 
+	private String chessBoard[][] = {}; 
 
+	public Board() {
+		initialize();
+	}
 	// Initialise le plateau 
-	public static void initialize(){
+	public void initialize(){
 		chessBoard = new String[][]{
 			{"r","n","b","q","k","b","n","r"},
 			{"p","p","p","p","p","p","p","p"},
@@ -24,7 +26,7 @@ public class Board {
 	}
 
 	// Lit les mouvements executes dans Arena. La liste de mouvements recus par Arena sont deja isoles dans la classe UCI. Ici le but est de les etudier et de mettre a jour le chessboard
-	public static void readMove(String move) {
+	public void readMove(String move) {
 
 		// On fait la tranformation pour que l'information puisse etre lue dans notre tableau
 		move = moveToNum(move);
@@ -102,7 +104,7 @@ public class Board {
 	}
 
 	// Affiche l'etat du tableau
-	public static void print() {
+	public void print() {
 		for(int i = 0 ; i<chessBoard.length ; i++) {
 			System.out.print("{");
 			for(int j = 0 ; j<chessBoard.length ; j++) {
@@ -120,5 +122,6 @@ public class Board {
 
 	}
 
+	public String[][] getChessBoard(){ return this.chessBoard; }
 
 }
