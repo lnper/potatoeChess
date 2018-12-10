@@ -40,6 +40,7 @@ public class Board {
 		chessBoard[aStart][bStart] = " ";
 
 		// On place ca dans la case de destination
+		
 		//si il s'agit d'un mouvement contenant une promotion :
 		if(move.length()==5){
 			chessBoard[aEnd][bEnd] = move.substring(4);
