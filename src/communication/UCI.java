@@ -34,9 +34,6 @@ public class UCI {
 	public static Board board;
 	public static Boolean isWhite = true;
 
-	public static boolean PLAYER_WHITE = true;
-
-
 	public static int COMPT = 0;
 
 	public static void uciCommunication() {
