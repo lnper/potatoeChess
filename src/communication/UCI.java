@@ -30,6 +30,9 @@ public class UCI {
 	static String QUIT = "quit";
 	static String PRINT = "print";
 
+	public static boolean PLAYER_WHITE = true;
+
+
 	public static int COMPT = 0;
 
 	public static void uciCommunication() {
@@ -121,8 +124,14 @@ public class UCI {
 			}
 
 			else if (input.contains(FEN)) {
-				input=input.substring(FEN.length()+1);
-				Board.importFEN(input);
+				input = input.substring(FEN.length()+1);
+				
+				if(input.length()>1) {
+					Board.importFEN(input);
+					if(input.contains(" w ")) PLAYER_WHITE = true;
+					else if(input.contains(" b ")) PLAYER_WHITE = false;
+				}
+				
 			}
 
 			// Prendre en consideration l'ensemble des mouvements ordonnes
@@ -173,6 +182,12 @@ public class UCI {
 	// Mettre a jour l'affichage
 	public static void inputPrint() {
 		if(Board.chessBoard.length>1) Board.print();
+		
+		String player;
+		if (PLAYER_WHITE) player = "blancs";
+		else if (!PLAYER_WHITE) player = "noirs";
+		else player = "NOONE";
+		System.out.println("Nous jouons les "+player);
 	}
 
 

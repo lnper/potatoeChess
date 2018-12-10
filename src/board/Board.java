@@ -4,6 +4,8 @@ import move.Evaluation;
 
 import java.util.Arrays;
 
+import communication.UCI;
+
 public class Board {
 
 	public static final boolean WhiteToMove = false;
@@ -43,8 +45,14 @@ public class Board {
 		chessBoard[aEnd][bEnd] = temp;
 	}
 
-	
-	
+
+	// Permet de detceter les pieces du plateau, a continuer...
+	public static void importFEN(String fenString) {
+		
+		
+	}
+
+
 	// Permet de transformer un mouvement en nombre pour notre tableau. Par exemple : b2b3 => 1615. Cela sera compris par le mouvement chessBoard[6][1] => chessBoard[5][1]
 	public static String moveToNum(String move) {
 
@@ -73,14 +81,14 @@ public class Board {
 
 	// Permet de transformer une action de notre moteur en un format classique. Par exemple : 6151 => b2b3.
 	public static String numToMove(String num) {
-		
+
 		String result = "";
 
 		//Pour la position A de depart
 		int positionAStart = Character.getNumericValue(num.charAt(0));
 		int valeurAStart = 8-Integer.valueOf(positionAStart);
 		String resultAStart = String.valueOf(valeurAStart);
-		
+
 		// Pour la position B de depart
 		int positionBStart = Character.getNumericValue(num.charAt(1))+97;
 		char asciiBStart = (char) positionBStart;
@@ -90,7 +98,7 @@ public class Board {
 		int positionAEnd = Character.getNumericValue(num.charAt(2));
 		int valeurAEnd = 8-Integer.valueOf(positionAEnd);
 		String resultAEnd = String.valueOf(valeurAEnd);
-		
+
 		// Pour la position B de depart
 		int positionBEnd = Character.getNumericValue(num.charAt(3))+97;
 		char asciiBEnd = (char) positionBEnd;
@@ -113,11 +121,9 @@ public class Board {
 		}
 		System.out.println(" 0 1 2 3 4 5 6 7");
 
-	}
-
-
-	public static void importFEN(String input) {
-
+		System.out.println("");
+		System.out.println("Evaluation des points blancs : "+Evaluation.evaluate()[0]);
+		System.out.println("Evaluation des points noirs : "+Evaluation.evaluate()[1]);
 	}
 
 
