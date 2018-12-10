@@ -3,6 +3,7 @@ package communication;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import algorithm.MinMax;
 import board.Board;
 import move.Moves;
 import move.ThreadHandler;
@@ -180,11 +181,16 @@ public class UCI {
 	public static void inputGo() {
 		String move = "";
 
+		/* coup random */ /*
 		ArrayList<String> legal = Moves.legalMove(board, isWhite);
 		int size = legal.size();
-		int randint = (int) (Math.random() * size);
+		int randint = (int) (Math.random() * size);*/
+		
+		// IA
+		move = MinMax.alphaBeta(board, isWhite);
 
-		System.out.println("bestmove "+Board.numToMove(legal.get(randint)));
+		System.out.println("bestmove "+Board.numToMove(move));
+		
 	}
 
 
