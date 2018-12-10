@@ -28,10 +28,10 @@ public class Board {
 		move = moveToNum(move);
 
 		//On transforme en int les donnees de move
-		int aStart = Character.getNumericValue(move.charAt(1));
-		int bStart = Character.getNumericValue(move.charAt(0));
-		int aEnd = Character.getNumericValue(move.charAt(3));
-		int bEnd = Character.getNumericValue(move.charAt(2));
+		int aStart = Character.getNumericValue(move.charAt(0));
+		int bStart = Character.getNumericValue(move.charAt(1));
+		int aEnd = Character.getNumericValue(move.charAt(2));
+		int bEnd = Character.getNumericValue(move.charAt(3));
 
 		// On enregistre temporairement le contenu de la case de depart et on la vide
 		String temp = chessBoard[aStart][bStart];
@@ -64,35 +64,37 @@ public class Board {
 		int positionYEnd = 8-Character.getNumericValue(move.charAt(3));
 		String resultPositionYEnd = String.valueOf(positionYEnd);
 
-		result = resultPositionXStart+resultPositionYStart+resultPositionXEnd+resultPositionYEnd;
+		result = resultPositionYStart+resultPositionXStart+resultPositionYEnd+resultPositionXEnd;
 
 		return result;
 	}
 
-	// Permet de transformer une action de notre moteur en un format classique. Par exemple : 1616 => b2b3.
+	// Permet de transformer une action de notre moteur en un format classique. Par exemple : 6151 => b2b3.
 	public static String numToMove(String num) {
 		
 		String result = "";
 
 		//Pour la position A de depart
-		int positionAStart = Character.getNumericValue(num.charAt(0))+97;
-		char asciiAStart = (char) positionAStart;
-		String resultAStart = Character.toString(asciiAStart);
+		int positionAStart = Character.getNumericValue(num.charAt(0));
+		int valeurAStart = 8-Integer.valueOf(positionAStart);
+		String resultAStart = String.valueOf(valeurAStart);
+		
 		// Pour la position B de depart
-		int positionBStart = Character.getNumericValue(num.charAt(1));
-		int valeurBStart = 8-Integer.valueOf(positionBStart);
-		String resultBStart = String.valueOf(valeurBStart);
+		int positionBStart = Character.getNumericValue(num.charAt(1))+97;
+		char asciiBStart = (char) positionBStart;
+		String resultBStart = Character.toString(asciiBStart);
 
 		//Pour la position A d'arrivee
-		int positionAEnd = Character.getNumericValue(num.charAt(2))+97;
-		char asciiAEnd = (char) positionAEnd;
-		String resultAEnd = Character.toString(asciiAEnd);
+		int positionAEnd = Character.getNumericValue(num.charAt(2));
+		int valeurAEnd = 8-Integer.valueOf(positionAEnd);
+		String resultAEnd = String.valueOf(valeurAEnd);
+		
 		// Pour la position B de depart
-		int positionBEnd = Character.getNumericValue(num.charAt(3));
-		int valeurBEnd = 8-Integer.valueOf(positionBEnd);
-		String resultBEnd = String.valueOf(valeurBEnd);
+		int positionBEnd = Character.getNumericValue(num.charAt(3))+97;
+		char asciiBEnd = (char) positionBEnd;
+		String resultBEnd = Character.toString(asciiBEnd);
 
-		result = resultAStart + resultBStart + resultAEnd + resultBEnd;
+		result = resultBStart + resultAStart + resultBEnd + resultAEnd;
 
 		return result;
 	}
@@ -105,8 +107,9 @@ public class Board {
 				if(j<chessBoard.length-1) System.out.print(chessBoard[i][j]+",");
 				else System.out.print(chessBoard[i][j]);
 			}
-			System.out.println("}");
+			System.out.println("} "+i);
 		}
+		System.out.println(" 0 1 2 3 4 5 6 7");
 
 	}
 
