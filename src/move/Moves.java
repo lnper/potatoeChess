@@ -10,10 +10,10 @@ public class Moves {
 	public static ArrayList legalMove(){
 		ArrayList<String> possibleMoveList= new ArrayList<String>();
 		//On parcours le plateau pour ajouter a chaque fois les mouvements possibles
-		for(int i=0; i<8; i++)
-		{
-			for(int j=0; j<8; j++)
-			{
+
+		for(int i=0; i<8; i++){
+			for(int j=0; j<8; j++){
+
 				switch(Board.chessBoard[i][j]){
 				case "P":
 					possibleMoveList.addAll(legalMoveP(i, j));
@@ -142,7 +142,7 @@ public class Moves {
 		int distance=1;
 		for(int k=-1; k<=1; k+=2){
 			for(int l=-1; l<=1; l+=2){				
-				if(!(k==0 && l==0) && isInBoard(i+distance*k, j+distance*l)){ //On regarde les cases autour du roi qui sont dans le plateau
+				if(isInBoard(i+distance*k, j+distance*l)){ //On regarde les cases autour du roi qui sont dans le plateau
 					while(isInBoard(i+distance*k, j+distance*l) && isEmptyCase(Board.chessBoard[i+distance*k][j+distance*l])){ //tant que la case évaluée est vide, on peut avancer la reine
 						String caseEvaluee = Board.chessBoard[i+distance*k][j+distance*l];
 						if(simulateMoveForKingCheck(i, j, i+distance*k, j+distance*l)){
@@ -219,6 +219,7 @@ public class Moves {
 		Board.chessBoard[ni][nj] = bufferIJ; 
 		Board.chessBoard[i][j] = " ";
 
+
 		boolean kingCheck = kingCheck();
 
 		Board.chessBoard[i][j] = bufferIJ;
@@ -228,8 +229,85 @@ public class Moves {
 
 	}
 
-	public static boolean kingCheck(){ //echec au roi
+	public static boolean kingCheck(){ //cette fonction regarde les échecs au roi en fonction de la position des pièces ennemis
+		int kingPosI = whiteKingPosition()[0];
+		int kingPosJ = whiteKingPosition()[1];
+
+		//calcul des échecs en ligne droite (Reine et tours)
+		int distance=1;
+		for(int k=-1; k<=1; k++){
+			for(int l=-1; l<=1; l++){
+				if(!(Math.abs(k)==Math.abs(l)) && isInBoard(kingPosI+k, kingPosJ+l)){ //On regarde les cases autour du roi qui sont dans le plateau
+					while(isInBoard(kingPosI+distance*k, kingPosJ+distance*l) && isEmptyCase(Board.chessBoard[kingPosI+distance*k][kingPosJ+distance*l])){ //tant que la case évaluée est vide, on peut avancer la reine
+						distance++;
+					}
+					if(isInBoard(kingPosI+distance*k, kingPosJ+distance*l)){
+						String caseEvaluee = Board.chessBoard[kingPosI+distance*k][kingPosJ+distance*l];
+						if(caseEvaluee.equals("r") || caseEvaluee.equals("q")){
+							//si on est en ligne de mir d'une tour ou de la reine, le roi est en echec
+							return true;
+						}
+					}
+				}
+				distance=1;
+			}
+		}
+
+		//calcul des echecs en diagonale (Reine et Fou) : 
+		distance = 1;
+		for(int k=-1; k<=1; k+=2){
+			for(int l=-1; l<=1; l+=2){				
+				if(!(k==0 && l==0) && isInBoard(kingPosI+k, kingPosJ+l)){ //On regarde les cases autour du roi qui sont dans le plateau
+					while(isInBoard(kingPosI+distance*k, kingPosJ+distance*l) && isEmptyCase(Board.chessBoard[kingPosI+distance*k][kingPosJ+distance*l])){ //tant que la case évaluée est vide, on peut avancer la reine
+						distance++;
+					}
+					if(isInBoard(kingPosI+distance*k, kingPosJ+distance*l)){
+						String caseEvaluee = Board.chessBoard[kingPosI+distance*k][kingPosJ+distance*l];
+						if(caseEvaluee.equals("b") || caseEvaluee.equals("q")){
+							return true;
+						}
+					}
+				}
+				distance = 1;
+			}
+		}
+
+		//calcul en echec par les cavaliers :
+		for(int k=-2; k<=2; k++){
+			for(int l=-2; l<=2; l++){				
+				if((Math.abs(k)+Math.abs(l)==3)&&!(k==0 || l==0) && isInBoard(kingPosI+k, kingPosJ+l)){
+					String caseEvaluee = Board.chessBoard[kingPosI+k][kingPosJ+l];
+					if(caseEvaluee.equals("n")){
+						return true;
+					}
+				}
+			}
+		}
+
+		//calcul en echec par les pions
+		for(int k=-1; k<=1; k+=2){
+			if(isInBoard(kingPosI-1, kingPosJ+k)){
+				String caseEvaluee = Board.chessBoard[kingPosI-1][kingPosJ+k];
+				if(caseEvaluee.equals("p")){
+					return true;
+				}
+			}
+		}
+
+
 		return false;
+	}
+
+	public static int[] whiteKingPosition(){
+		int pos[] = {};
+		for(int i=7; i>= 0; i--){
+			for(int j=7; j>=0; j--){
+				if(Board.chessBoard[i][j].equals("K")){
+					pos = new int[]{i,j};
+				}
+			}
+		}
+		return pos;
 	}
 
 	public static boolean isInBoard(int i, int j){ //fonction qui verifie si deux coord sont dans le palteau

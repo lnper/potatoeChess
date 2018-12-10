@@ -1,5 +1,6 @@
 package communication;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import board.Board;
@@ -152,16 +153,19 @@ public class UCI {
 	public static void inputGo() {
 		String move = "";
 
-		move = ThreadHandler.calculateBestMove(); // => retourne un mouvement qu'il faut maintenant system.out
-		COMPT++;
+		//move = ThreadHandler.calculateBestMove(); // => retourne un mouvement qu'il faut maintenant system.out
+		//COMPT++;
 
-		if(COMPT==0) move = "b2b3";
-		else if(COMPT==1) move = "b7b6";
-		else if(COMPT==2) move = "b3b4";
-		else if(COMPT==3) move = "b6b5";
-		COMPT++;
-
-		System.out.println("bestmove "+move);
+		//if(COMPT==0) move = "b2b3";
+		//else if(COMPT==1) move = "b7b6";
+		//else if(COMPT==2) move = "b3b4";
+		//else if(COMPT==3) move = "b6b5";
+		//COMPT++;
+		ArrayList<String> legal = Moves.legalMove();
+		int size = legal.size();
+		int randint = (int) (Math.random() * size);
+		
+		System.out.println("bestmove "+Board.numToMove(legal.get(randint)));
 	}
 
 

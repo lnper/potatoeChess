@@ -6,6 +6,7 @@ public class Board {
 
 	public static final boolean WhiteToMove = false;
 	public static String chessBoard[][] = {}; 
+	
 
 	// Initialise le plateau 
 	public static void initialize(){
@@ -15,7 +16,7 @@ public class Board {
 			{" "," "," "," "," "," "," "," "},
 			{" "," "," "," "," "," "," "," "},
 			{" "," "," "," "," "," "," "," "},
-			{" "," "," "," "," "," "," "," "},
+			{" a"," "," "," "," "," "," "," "},
 			{"P","P","P","P","P","P","P","P"},
 			{"R","N","B","Q","K","B","N","R"}};
 
