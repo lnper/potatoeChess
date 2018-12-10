@@ -2,6 +2,7 @@ package algorithm;
 
 import board.Board;
 import move.Moves;
+import move.Evaluation;
 
 public class MinMax {
 	
@@ -15,7 +16,7 @@ public class MinMax {
 	///////////////// fonction static ///////////////////////////////////////////////////////////
 	public static String alphaBeta(Board board, boolean player) {
 		MinMax algo = new MinMax();
-		algo.minmax (board,DEPTH, -1000000, 1000000, true, boolean player);
+		int score = algo.minmax (board,DEPTH, -1000000, 1000000, true, player);
 		
 		return algo.getBestMove();
 	}
@@ -23,7 +24,7 @@ public class MinMax {
 	/////////////// algo min max avec alpha beta ////////////////////////////////////////////////
 	private int minmax(Board board, int depth, int alpha, int beta, boolean maximizingPlayer, boolean player) {
 
-		if (0 == depth) return evaluateBoard(board, player);
+		if (0 == depth) return Evaluation.evaluate(board, player);
 
 		int eval;
 		int maxEval;
@@ -33,8 +34,8 @@ public class MinMax {
 		if (maximizingPlayer) {
 			maxEval = -1000000;
 
-			for (String m : board.getPossibleMoves(player)) ) {
-				board.apply(m);
+			for (String m : board.legalMove(player)) ) {
+				board.readMove(m);
 				eval = minmax(board, depth - 1, alpha, beta , false, player); 
 				if(eval >= maxEval) this.bestMove = m;	// sauvegarde du meilleur mouvement
 				maxEval = Math.max(maxEval, eval);
@@ -47,8 +48,8 @@ public class MinMax {
 		// algorithme min
 		}else {
 			minEval = 1000000;
-			for (String m : board.getPossibleMoves(!player)) ) {
-				board.apply(m);
+			for (String m : board.legalMove(!player)) ) {
+				board.readMove(m);
 				eval = minmax(board, depth - 1, alpha, beta , true, player);
 				minEval = Math.min(minEval, eval);
 				beta = Math.min(beta, eval);
