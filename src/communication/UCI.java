@@ -32,7 +32,7 @@ public class UCI {
 	static String PRINT = "print";
 	
 	public static Board board;
-	public static Boolean isWhite;
+	public static Boolean isWhite = true;
 
 	public static boolean PLAYER_WHITE = true;
 
@@ -123,6 +123,7 @@ public class UCI {
 			if (input.contains(STARTPOSITION)) {
 				input = input.substring(input.indexOf(STARTPOSITION) + STARTPOSITION.length()+1);
 				//ChessBoardGenerator.importFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+				board = new Board();
 				board.initialize();
 				accepted = true;
 			}
@@ -132,8 +133,8 @@ public class UCI {
 				
 				if(input.length()>1) {
 					Board.importFEN(input);
-					if(input.contains(" w ")) PLAYER_WHITE = true;
-					else if(input.contains(" b ")) PLAYER_WHITE = false;
+					if(input.contains(" w ")) isWhite = true;
+					else if(input.contains(" b ")) isWhite = false;
 				}
 				
 			}
