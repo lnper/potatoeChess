@@ -30,14 +30,14 @@ public class UCI {
 	static String GO = "go";
 	static String QUIT = "quit";
 	static String PRINT = "print";
-	
+
 	public static Board board;
 	public static Boolean isWhite = true;
 
 	public static void uciCommunication() {
 
 		Scanner input = new Scanner(System.in);
-		
+
 		// Boucle infinie pour toute la duree d'une partie
 		while (true) {
 
@@ -125,17 +125,19 @@ public class UCI {
 
 			else if (input.contains(FEN)) {
 				input = input.substring(FEN.length()+1);
-				
+
 				if(input.length()>1) {
 					Board.importFEN(input);
 					if(input.contains(" w ")) isWhite = true;
 					else if(input.contains(" b ")) isWhite = false;
 				}
-				
+
 			}
 
 			// Prendre en consideration l'ensemble des mouvements ordonnes
 			if (input.contains(MOVES)) {
+				
+				int comptMoves = 0;
 				input = input.substring(input.indexOf(MOVES) + MOVES.length()+1);
 
 				while (input.length() > 0) {
@@ -143,15 +145,27 @@ public class UCI {
 					// Nous nous interessons au premier mouvement de la String
 
 					move = input.substring(0,4);
-					
+
 					if(!(input.charAt(4)==' ')){ //Si on est dans le cas d'une promotion
 						move+=input.charAt(4);
 					}
+					
 					// Nous le traitons
 					board.readMove(move);
 					// Nous enlevons ce mouvement a la String puisqu'il a ete traite
 					input = input.substring(input.indexOf(' ')+1);
+					comptMoves++;
 				}
+
+				// Indique au premier coup si l'on est blanc ou noir
+				if(comptMoves == 0) {
+					isWhite = true;
+				}
+				
+				else if(comptMoves == 1) {
+					isWhite = false;
+				}
+
 				accepted = true;
 			}
 
@@ -169,7 +183,7 @@ public class UCI {
 		ArrayList<String> legal = Moves.legalMove(board, isWhite);
 		int size = legal.size();
 		int randint = (int) (Math.random() * size);
-		
+
 		System.out.println("bestmove "+Board.numToMove(legal.get(randint)));
 	}
 
@@ -182,7 +196,7 @@ public class UCI {
 	// Mettre a jour l'affichage
 	public static void inputPrint() {
 		if(board.getChessBoard().length>1) board.print();
-		
+
 		String player;
 		if (isWhite) player = "blancs";
 		else player = "noirs";
