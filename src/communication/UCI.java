@@ -29,13 +29,16 @@ public class UCI {
 	static String GO = "go";
 	static String QUIT = "quit";
 	static String PRINT = "print";
+	
+	public static Board board;
+	public static Boolean couleur;
 
 	public static int COMPT = 0;
 
 	public static void uciCommunication() {
 
 		Scanner input = new Scanner(System.in);
-
+		
 		// Boucle infinie pour toute la duree d'une partie
 		while (true) {
 
@@ -99,7 +102,7 @@ public class UCI {
 	}
 
 	public static void inputUCINewGame() {
-		Board board = new Board();
+		board = new Board();
 	}
 
 	public static void inputPosition(String input) {
@@ -116,7 +119,7 @@ public class UCI {
 			if (input.contains(STARTPOSITION)) {
 				input = input.substring(input.indexOf(STARTPOSITION) + STARTPOSITION.length()+1);
 				//ChessBoardGenerator.importFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-				Board.initialize();
+				board.initialize();
 				accepted = true;
 			}
 
@@ -134,7 +137,7 @@ public class UCI {
 					// Nous nous interessons au premier mouvement de la String
 					move = input.substring(0,4);
 					// Nous le traitons
-					Board.readMove(move);
+					board.readMove(move);
 					// Nous enlevons ce mouvement a la String puisqu'il a ete traite
 					input = input.substring(input.indexOf(' ')+1);
 				}
@@ -172,7 +175,7 @@ public class UCI {
 
 	// Mettre a jour l'affichage
 	public static void inputPrint() {
-		if(Board.chessBoard.length>1) Board.print();
+		if(board.getChessBoard().length>1) board.print();
 	}
 
 

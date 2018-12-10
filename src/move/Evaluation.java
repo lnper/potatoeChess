@@ -21,12 +21,11 @@ public class Evaluation {
 	 * Evalue le plateau a un etat donne et y attribu un score pour les blancs (consideres en bas) dans le premier terme, et les noirs (consideres en haut) dans le second
 	 * evaluate [0] = score en bas (blancs)
 	 * evaluate [1] = score en haut (noirs)
-	*/
-	public static int[] evaluate() {
-		int [] result = new int[2];
+	*/ 
+	public static int evaluate(Board board, boolean player) {
 
 		// Analyse et attribution des points
-		int[] analyse = analyse();
+		int[] analyse = analyse(board);
 		int pointsPiecesWhite = calculatePointsPiecesWhite(analyse);
 		int pointsPiecesBlack = calculatePointsPiecesBlack(analyse);
 		int pointsPositionWhite = calculatePointsPositionWhite(analyse);
@@ -34,20 +33,19 @@ public class Evaluation {
 		
 		int resultWhite = pointsPiecesWhite + pointsPositionWhite;
 		int resultBlack = pointsPiecesBlack + pointsPositionBlack;
-
-		result[0] = resultWhite;
-		result[1] = resultBlack;
-		return result;
+		
+		if(player) return resultWhite;
+		else return resultBlack;
 	}
 
 
 
 
 	// Permet de calculer le nombre de pieces restantes sur le plateau => liste d'elements avec en premier le nombre de pieces blanches et en deuxieme le nombre de pieces noires
-	public static int [] analyse() {
+	public static int [] analyse(Board b) {
 
 		// Chargement unique du plateau (puisqu'il ne change pas pendant l'evaluation)
-		String [][] board = Board.chessBoard;
+		String [][] plateau = b.getChessBoard();
 
 		int [] result = new int [26] ;
 
@@ -87,60 +85,60 @@ public class Evaluation {
 		int comptPointsP = 0;
 
 
-		for(int i = 0; i<board.length ; i++) {
-			for(int j = 0 ; j<board.length ; j++) {
-				if(board[i][j] == "r" || board[i][j] == "n" || board[i][j] == "b" || board[i][j] == "q" || board[i][j] == "k" || board[i][j] == "p") {
+		for(int i = 0; i<plateau.length ; i++) {
+			for(int j = 0 ; j<plateau.length ; j++) {
+				if(plateau[i][j] == "r" || plateau[i][j] == "n" || plateau[i][j] == "b" || plateau[i][j] == "q" || plateau[i][j] == "k" || plateau[i][j] == "p") {
 					comptBlack++;
-					if(board[i][j] == "r") {
+					if(plateau[i][j] == "r") {
 						comptr++;
 						comptPointsr += ROOK[7-i][7-j];
 					}
-					if(board[i][j] == "n") {
+					if(plateau[i][j] == "n") {
 						comptn++;
 						comptPointsn += KNIGHT[7-i][7-j];
 					}
-					if(board[i][j] == "b") {
+					if(plateau[i][j] == "b") {
 						comptb++;
 						comptPointsb += BISHOP[7-i][7-j];
 					}
-					if(board[i][j] == "q") {
+					if(plateau[i][j] == "q") {
 						comptq++;
 						comptPointsq += QUEEN[7-i][7-j];
 					}
-					if(board[i][j] == "k") {
+					if(plateau[i][j] == "k") {
 						comptk++;
 						if(ENDGAME) comptPointsk += KING_ENDGAME[7-i][7-j];
 						else comptPointsk += KING[7-i][7-j];
 					}
-					if(board[i][j] == "p") {
+					if(plateau[i][j] == "p") {
 						comptp++;
 						comptPointsp += PAWN[7-i][7-j];
 					}
 				}
-				else if(board[i][j] == "R" || board[i][j] == "N" || board[i][j] == "B" || board[i][j] == "Q" || board[i][j] == "K" || board[i][j] == "P") {
+				else if(plateau[i][j] == "R" || plateau[i][j] == "N" || plateau[i][j] == "B" || plateau[i][j] == "Q" || plateau[i][j] == "K" || plateau[i][j] == "P") {
 					comptWhite++;
-					if(board[i][j] == "R") {
+					if(plateau[i][j] == "R") {
 						comptR++;
 						comptPointsR += ROOK[i][j];
 					}
-					if(board[i][j] == "N") {
+					if(plateau[i][j] == "N") {
 						comptN++;
 						comptPointsN += KNIGHT[i][j];
 					}
-					if(board[i][j] == "B") {
+					if(plateau[i][j] == "B") {
 						comptB++;
 						comptPointsB += BISHOP[i][j];
 					}
-					if(board[i][j] == "Q") {
+					if(plateau[i][j] == "Q") {
 						comptQ++;
 						comptPointsQ += QUEEN[i][j];
 					}
-					if(board[i][j] == "K") {
+					if(plateau[i][j] == "K") {
 						comptK++;
 						if(ENDGAME) comptPointsK += KING_ENDGAME[i][j];
 						else comptPointsK += KING[i][j];
 					}
-					if(board[i][j] == "P") {
+					if(plateau[i][j] == "P") {
 						comptP++;
 						comptPointsP += PAWN[i][j];
 					}
