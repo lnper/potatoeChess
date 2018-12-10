@@ -86,7 +86,7 @@ public class Board {
 	public void undoMove(String move) {
 
 		// Nous devons envoyer dans cette methode le formalisme en 6 donnees
-		if(move.length() == 6) {
+		
 			int aStart = Character.getNumericValue(move.charAt(0));
 			int bStart = Character.getNumericValue(move.charAt(1));
 			int aEnd = Character.getNumericValue(move.charAt(2));
@@ -126,9 +126,6 @@ public class Board {
 			}
 		}
 
-	}
-
-
 	// Permet de detecter les pieces du plateau, a continuer...
 	public static void importFEN(String fenString) {
 
@@ -163,7 +160,7 @@ public class Board {
 			promot = move.substring(4);
 		}
 
-		result = resultPositionYStart+resultPositionXStart+resultPositionYEnd+resultPositionXEnd+promot;
+		result = resultPositionYStart+resultPositionXStart+resultPositionYEnd+resultPositionXEnd+" "+promot;
 
 		return result;
 	}

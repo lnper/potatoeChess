@@ -79,14 +79,14 @@ public class Moves {
 		//N:1 resp B:6
 		if(firstPawnMove && isEmptyCase(chessBoard[i+moveDirection][j]) && isEmptyCase(chessBoard[i+2*moveDirection][j])){
 			if(simulateMoveForKingCheck(board, isWhite, i, j, i+2*moveDirection, j)){
-				possiblePawnMoves.add(""+i+j+(i+2*moveDirection)+(j)+" ");
+				possiblePawnMoves.add(""+i+j+(i+2*moveDirection)+(j)+" "+" ");
 			}
 		}
 		// N: i<=5   B:i>=2
 		//mouvement de 1 en avant sans promotion
 		if(basicMoveArea && isEmptyCase(chessBoard[i+moveDirection][j])){
 			if(simulateMoveForKingCheck(board, isWhite, i, j, i+moveDirection, j)){
-				possiblePawnMoves.add(""+i+j+(i+moveDirection)+(j)+" ");
+				possiblePawnMoves.add(""+i+j+(i+moveDirection)+(j)+" "+" ");
 			}
 		}
 		//N:6  B:1
@@ -104,7 +104,7 @@ public class Moves {
 				if(isInBoard(i+moveDirection, j+k) && isEnnemy(chessBoard[i+moveDirection][j+k], isWhite)){
 					String caseEvaluee = chessBoard[i+moveDirection][j+k];
 					if(simulateMoveForKingCheck(board, isWhite, i, j, i+moveDirection, j+k)){
-						possiblePawnMoves.add(""+i+j+(i+moveDirection)+(j+k)+caseEvaluee);
+						possiblePawnMoves.add(""+i+j+(i+moveDirection)+(j+k)+caseEvaluee+" ");
 					}
 				}
 			}
@@ -136,14 +136,14 @@ public class Moves {
 					while(isInBoard(i+distance*k, j+distance*l) && isEmptyCase(chessBoard[i+distance*k][j+distance*l])){ //tant que la case évaluée est vide, on peut avancer la reine
 						String caseEvaluee = chessBoard[i+distance*k][j+distance*l];
 						if(simulateMoveForKingCheck(board, isWhite, i, j, i+distance*k, j+distance*l)){
-							possibleRookMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee);
+							possibleRookMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee+" ");
 						}
 						distance++;
 					}
 					if(isInBoard(i+distance*k, j+distance*l) && isEnnemy(chessBoard[i+distance*k][j+distance*l], isWhite)){
 						String caseEvaluee = chessBoard[i+distance*k][j+distance*l];
 						if(simulateMoveForKingCheck(board, isWhite, i,j, i+distance*k, j+distance*l)){
-							possibleRookMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee);
+							possibleRookMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee+" ");
 						}
 					}
 				}
@@ -163,7 +163,7 @@ public class Moves {
 					String caseEvaluee = chessBoard[i+k][j+l];
 					if(isEmptyCase(caseEvaluee) || isEnnemy(caseEvaluee, isWhite)){  
 						if(simulateMoveForKingCheck(board, isWhite, i, j, i+k, j+l)){//on vérifie que le roi ne se met pas en échec s'il fait ce mouvement
-							possibleKnightMoves.add(""+i+j+(i+k)+(j+l)+caseEvaluee);
+							possibleKnightMoves.add(""+i+j+(i+k)+(j+l)+caseEvaluee+" ");
 						}
 					}
 				}
@@ -183,14 +183,14 @@ public class Moves {
 					while(isInBoard(i+distance*k, j+distance*l) && isEmptyCase(chessBoard[i+distance*k][j+distance*l])){ //tant que la case évaluée est vide, on peut avancer la reine
 						String caseEvaluee = chessBoard[i+distance*k][j+distance*l];
 						if(simulateMoveForKingCheck(board, isWhite, i, j, i+distance*k, j+distance*l)){
-							possibleBishopMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee);
+							possibleBishopMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee+" ");
 						}
 						distance++;
 					}
 					if(isInBoard(i+distance*k, j+distance*l) && isEnnemy(chessBoard[i+distance*k][j+distance*l], isWhite)){
 						String caseEvaluee = chessBoard[i+distance*k][j+distance*l];
 						if(simulateMoveForKingCheck(board, isWhite, i,j, i+distance*k, j+distance*l)){
-							possibleBishopMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee);
+							possibleBishopMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee+" ");
 						}
 					}
 				}
@@ -211,14 +211,14 @@ public class Moves {
 					while(isInBoard(i+distance*k, j+distance*l) && isEmptyCase(chessBoard[i+distance*k][j+distance*l])){ //tant que la case évaluée est vide, on peut avancer la reine
 						String caseEvaluee = chessBoard[i+distance*k][j+distance*l];
 						if(simulateMoveForKingCheck(board, isWhite, i, j, i+distance*k, j+distance*l)){
-							possibleQueenMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee);
+							possibleQueenMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee+" ");
 						}
 						distance++;
 					}
 					if(isInBoard(i+distance*k, j+distance*l) && isEnnemy(chessBoard[i+distance*k][j+distance*l], isWhite)){
 						String caseEvaluee = chessBoard[i+distance*k][j+distance*l];
 						if(simulateMoveForKingCheck(board, isWhite, i, j, i+distance*k, j+distance*l)){
-							possibleQueenMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee);
+							possibleQueenMoves.add(""+i+j+(i+distance*k)+(j+distance*l)+caseEvaluee+" ");
 						}
 					}
 				}
@@ -239,7 +239,7 @@ public class Moves {
 					if(isEmptyCase(caseEvaluee) || isEnnemy(caseEvaluee, isWhite)){ //si la case évaluee est vide ou est un ennemi
 						//On simule le déplacement puis on verifie que cela ne met pas en echec
 						if(simulateMoveForKingCheck(board, isWhite, i,j,i+k, j+l)){//on vérifie que le roi ne se met pas en échec s'il fait ce mouvement
-							possibleKingMoves.add(""+i+j+(i+k)+(j+l)+caseEvaluee);
+							possibleKingMoves.add(""+i+j+(i+k)+(j+l)+caseEvaluee+" ");
 						}
 					}
 				}		

@@ -16,12 +16,14 @@ public class test {
 		ArrayList<String> coupNoirs = Moves.legalMove(board, false);
 		System.out.println("blancs");
 		for(String coup: coupBlanc){
-			System.out.println(board.numToMove(coup));
+			System.out.print(board.numToMove(coup));
+			System.out.println(" "+coup.length());
 		}
 		System.out.println("");
 		System.out.println("noirs");
 		for(String coup: coupNoirs){
-			System.out.println(board.numToMove(coup));
+			System.out.print(board.numToMove(coup));
+			System.out.println(" "+coup.length());
 		}
 		
 		
