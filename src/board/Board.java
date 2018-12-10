@@ -1,5 +1,7 @@
 package board;
 
+import move.Evaluation;
+
 import java.util.Arrays;
 
 public class Board {
