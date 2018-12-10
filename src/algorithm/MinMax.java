@@ -34,13 +34,13 @@ public class MinMax {
 		if (maximizingPlayer) {
 			maxEval = -1000000;
 
-			for (String m : board.legalMove(player)) ) {
-				board.readMove(m);
+			for (String m : Moves.legalMove(board, player)) {
+				board.move(m);
 				eval = minmax(board, depth - 1, alpha, beta , false, player); 
 				if(eval >= maxEval) this.bestMove = m;	// sauvegarde du meilleur mouvement
 				maxEval = Math.max(maxEval, eval);
 				alpha = Math.max(alpha, eval);
-				board.revert(m);
+				board.undoMove(m);
 				if (beta >= alpha) return maxEval;              // so cut here (pruning)
 			}
 			return maxEval;	
@@ -48,12 +48,12 @@ public class MinMax {
 		// algorithme min
 		}else {
 			minEval = 1000000;
-			for (String m : board.legalMove(!player)) ) {
-				board.readMove(m);
+			for (String m : Moves.legalMove(board, !player)) {
+				board.move(m);
 				eval = minmax(board, depth - 1, alpha, beta , true, player);
 				minEval = Math.min(minEval, eval);
 				beta = Math.min(beta, eval);
-				board.revert(m);
+				board.undoMove(m);
 			}
 			return minEval;
 		}
