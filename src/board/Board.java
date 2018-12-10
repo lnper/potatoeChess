@@ -38,13 +38,21 @@ public class Board {
 		int bStart = Character.getNumericValue(move.charAt(1));
 		int aEnd = Character.getNumericValue(move.charAt(2));
 		int bEnd = Character.getNumericValue(move.charAt(3));
+		
 
 		// On enregistre temporairement le contenu de la case de depart et on la vide
 		String temp = chessBoard[aStart][bStart];
 		this.chessBoard[aStart][bStart] = " ";
 
 		// On place ca dans la case de destination
-		this.chessBoard[aEnd][bEnd] = temp;
+		
+		//si il s'agit d'un mouvement contenant une promotion :
+		if(move.length()==5){
+			chessBoard[aEnd][bEnd] = move.substring(4);
+		}
+		else{
+		chessBoard[aEnd][bEnd] = temp;
+		}
 	}
 
 	// Prend en entree un String move de la forme idepart jdepart iarrivee jarrivee piececapturee promotionverspiece
@@ -148,8 +156,14 @@ public class Board {
 		// Pour la position Y d'arrivee	
 		int positionYEnd = 8-Character.getNumericValue(move.charAt(3));
 		String resultPositionYEnd = String.valueOf(positionYEnd);
+		
+		//Si le mouvement contient une information de promotion
+		String promot = "";
+		if(move.length()==5){
+			promot = move.substring(4);
+		}
 
-		result = resultPositionYStart+resultPositionXStart+resultPositionYEnd+resultPositionXEnd;
+		result = resultPositionYStart+resultPositionXStart+resultPositionYEnd+resultPositionXEnd+promot;
 
 		return result;
 	}
