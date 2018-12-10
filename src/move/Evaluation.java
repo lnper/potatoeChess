@@ -93,28 +93,28 @@ public class Evaluation {
 					comptBlack++;
 					if(board[i][j] == "r") {
 						comptr++;
-						comptPointsr += ROOK[8-i][8-j];
+						comptPointsr += ROOK[7-i][7-j];
 					}
 					if(board[i][j] == "n") {
 						comptn++;
-						comptPointsn += KNIGHT[8-i][8-j];
+						comptPointsn += KNIGHT[7-i][7-j];
 					}
 					if(board[i][j] == "b") {
 						comptb++;
-						comptPointsb += BISHOP[8-i][8-j];
+						comptPointsb += BISHOP[7-i][7-j];
 					}
 					if(board[i][j] == "q") {
 						comptq++;
-						comptPointsq += QUEEN[8-i][8-j];
+						comptPointsq += QUEEN[7-i][7-j];
 					}
 					if(board[i][j] == "k") {
 						comptk++;
-						if(ENDGAME) comptPointsk += KING_ENDGAME[8-i][8-j];
-						else comptPointsk += KING[8-i][8-j];
+						if(ENDGAME) comptPointsk += KING_ENDGAME[7-i][7-j];
+						else comptPointsk += KING[7-i][7-j];
 					}
 					if(board[i][j] == "p") {
 						comptp++;
-						comptPointsp += PAWN[8-i][8-j];
+						comptPointsp += PAWN[7-i][7-j];
 					}
 				}
 				else if(board[i][j] == "R" || board[i][j] == "N" || board[i][j] == "B" || board[i][j] == "Q" || board[i][j] == "K" || board[i][j] == "P") {
@@ -216,12 +216,12 @@ public class Evaluation {
 
 		int result = 0;
 
-		int comptr = analyse[2];
-		int comptn = analyse[3];
-		int comptb = analyse[4];
-		int comptq = analyse[5];
-		int comptk = analyse[6];
-		int comptp = analyse[7];
+		int comptr = analyse[8];
+		int comptn = analyse[9];
+		int comptb = analyse[10];
+		int comptq = analyse[11];
+		int comptk = analyse[12];
+		int comptp = analyse[13];
 
 		int valuer = 50;
 		int valuen = 30;

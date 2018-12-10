@@ -1,5 +1,7 @@
 package board;
 
+import move.Evaluation;
+
 public class Board {
 
 	public static final boolean WhiteToMove = false;
