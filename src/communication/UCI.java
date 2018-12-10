@@ -34,8 +34,6 @@ public class UCI {
 	public static Board board;
 	public static Boolean isWhite = true;
 
-	public static int COMPT = 0;
-
 	public static void uciCommunication() {
 
 		Scanner input = new Scanner(System.in);
