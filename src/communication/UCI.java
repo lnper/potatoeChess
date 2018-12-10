@@ -133,7 +133,12 @@ public class UCI {
 				while (input.length() > 0) {
 					String move;
 					// Nous nous interessons au premier mouvement de la String
+
 					move = input.substring(0,4);
+					
+					if(!(input.charAt(4)==' ')){ //Si on est dans le cas d'une promotion
+						move+=input.charAt(4);
+					}
 					// Nous le traitons
 					Board.readMove(move);
 					// Nous enlevons ce mouvement a la String puisqu'il a ete traite

@@ -314,11 +314,6 @@ public class Moves {
 		return(i>=0 && i<8 && j>=0 && j<8);
 	}
 
-	public static String convertMove(String move) //converti un mouvement du plateau pour le formater en mouvement d'echec
-	{
-		return move;
-	}
-
 	public static boolean isEnnemy(String caseEvaluee) { //il y a un ennmi sur la case evaluee
 		return Character.isLowerCase(caseEvaluee.charAt(0));
 	}

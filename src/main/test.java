@@ -10,14 +10,8 @@ public class test {
 	public static void main(String[] args) {
 		Board.initialize();
 		Board.print();
-		ArrayList<String> legal = Moves.legalMove();
-		for(String pos: legal)
-		{
-			System.out.print(pos+" ");
-			System.out.print(Board.numToMove(pos)+" ");
-			System.out.println(Board.moveToNum(Board.numToMove(pos)));
-		}
-		System.out.println(legal.size());
+		Board.readMove("g2g1q");
+		Board.print();
 	}
 
 }
