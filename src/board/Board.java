@@ -67,7 +67,7 @@ public class Board {
 		return result;
 	}
 
-	// Permet de transformer une action de notre moteur en un format classique. Par exemple : 1616 => b2b3.
+	// Permet de transformer une action de notre moteur en un format classique. Par exemple : 1615 => b2b3.
 	public static String numToMove(String num) {
 		
 		String result = "";
@@ -105,7 +105,6 @@ public class Board {
 			}
 			System.out.println("}");
 		}
-
 	}
 
 
