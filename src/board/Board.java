@@ -41,17 +41,90 @@ public class Board {
 
 		// On enregistre temporairement le contenu de la case de depart et on la vide
 		String temp = chessBoard[aStart][bStart];
-		chessBoard[aStart][bStart] = " ";
+		this.chessBoard[aStart][bStart] = " ";
 
 		// On place ca dans la case de destination
-		chessBoard[aEnd][bEnd] = temp;
+		this.chessBoard[aEnd][bEnd] = temp;
+	}
+
+	// Prend en entree un String move de la forme idepart jdepart iarrivee jarrivee piececapturee promotionverspiece
+	public void move(String move) {
+		// Nous devons envoyer dans cette methode le formalisme en 6 donnees
+		if(move.length() == 6) {
+			int aStart = Character.getNumericValue(move.charAt(0));
+			int bStart = Character.getNumericValue(move.charAt(1));
+			int aEnd = Character.getNumericValue(move.charAt(2));
+			int bEnd = Character.getNumericValue(move.charAt(3));
+			String capt = String.valueOf(move.charAt(4));
+			String prom = String.valueOf(move.charAt(5));
+
+			// On enregistre temporairement le contenu de la case de depart et on la vide
+			String temp = this.chessBoard[aStart][bStart];
+			this.chessBoard[aStart][bStart] = " ";
+
+			if (prom == " ") {
+				// On place ca dans la case de destination
+				this.chessBoard[aEnd][bEnd] = temp;
+			}
+			
+			else if (prom != " ") {
+				this.chessBoard[aEnd][bEnd] = prom;
+			}
+		}
 	}
 
 
-	// Permet de detceter les pieces du plateau, a continuer...
+	// Prend en entree un String move de la forme idepart jdepart iarrivee jarrivee piececapturee promotionverspiece
+	public void undoMove(String move) {
+
+		// Nous devons envoyer dans cette methode le formalisme en 6 donnees
+		if(move.length() == 6) {
+			int aStart = Character.getNumericValue(move.charAt(0));
+			int bStart = Character.getNumericValue(move.charAt(1));
+			int aEnd = Character.getNumericValue(move.charAt(2));
+			int bEnd = Character.getNumericValue(move.charAt(3));
+			String capt = String.valueOf(move.charAt(4));
+			String prom = String.valueOf(move.charAt(5));
+
+			// On enregistre temporairement le contenu de la case d'arrivee et on la vide
+			String temp = this.chessBoard[aEnd][bEnd];
+			this.chessBoard[aEnd][bEnd] = " ";
+			
+			if (capt == " " && prom == " ") {
+				this.chessBoard[aStart][bStart] = temp;
+			}
+			
+			else if (capt != " " && prom == " ") {
+				this.chessBoard[aEnd][bEnd] = capt;
+			}
+			
+			else if (capt == " " && prom != " ") {
+				if(prom == prom.toUpperCase()) {
+					this.chessBoard[aStart][bStart] = "P";
+				}
+				else if(prom == prom.toLowerCase()) {
+					this.chessBoard[aStart][bStart] = "p";
+				}
+			}
+			
+			else if (capt != " " && prom != " ") {
+				this.chessBoard[aEnd][bEnd] = capt;
+				if(prom == prom.toUpperCase()) {
+					this.chessBoard[aStart][bStart] = "P";
+				}
+				else if(prom == prom.toLowerCase()) {
+					this.chessBoard[aStart][bStart] = "p";
+				}
+			}
+		}
+
+	}
+
+
+	// Permet de detecter les pieces du plateau, a continuer...
 	public static void importFEN(String fenString) {
-		
-		
+
+
 	}
 
 
@@ -113,11 +186,11 @@ public class Board {
 
 	// Affiche l'etat du tableau
 	public void print() {
-		for(int i = 0 ; i<chessBoard.length ; i++) {
+		for(int i = 0 ; i<this.chessBoard.length ; i++) {
 			System.out.print("{");
-			for(int j = 0 ; j<chessBoard.length ; j++) {
-				if(j<chessBoard.length-1) System.out.print(chessBoard[i][j]+",");
-				else System.out.print(chessBoard[i][j]);
+			for(int j = 0 ; j<this.chessBoard.length ; j++) {
+				if(j<this.chessBoard.length-1) System.out.print(this.chessBoard[i][j]+",");
+				else System.out.print(this.chessBoard[i][j]);
 			}
 			System.out.println("} "+i);
 		}
@@ -128,6 +201,6 @@ public class Board {
 		System.out.println("Evaluation des points noirs : "+Evaluation.evaluate(this, false));
 	}
 
-	public String[][] getChessBoard(){ return this.chessBoard; }
+	public String[][] getChessBoard() {return this.chessBoard;}
 
 }
