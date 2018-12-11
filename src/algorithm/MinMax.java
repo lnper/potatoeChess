@@ -6,9 +6,9 @@ import move.Evaluation;
 
 public class MinMax {
 	
-	public static final int DEPTH = 3;
+	public static final int DEPTH = 4;
 	private String bestMove;
-
+	
 	public MinMax() {
 		bestMove ="";
 	}
@@ -16,7 +16,7 @@ public class MinMax {
 	///////////////// fonction static ///////////////////////////////////////////////////////////
 	public static String alphaBeta(Board board, boolean player) {
 		MinMax algo = new MinMax();
-		int score = algo.minmax (board,DEPTH, -1000000, 1000000, true, player);
+		int score = algo.minmax (board, DEPTH, -1000000, 1000000, true, player);
 		
 		return algo.getBestMove();
 	}
@@ -39,10 +39,11 @@ public class MinMax {
 				eval = minmax(board, depth - 1, alpha, beta , false, player); 
 				if(eval > maxEval && depth == DEPTH) this.bestMove = m;	// sauvegarde du meilleur mouvement
 				maxEval = Math.max(maxEval, eval);
-				alpha = Math.max(alpha, eval);
+				alpha = Math.max(alpha, maxEval);
 				board.undoMove(m);
-				if (beta <= alpha)
-					break;// so cut here (pruning)
+				if (beta <= alpha) 
+					break;
+				// so cut here (pruning)
 			}
 			return maxEval;	
 
@@ -53,9 +54,9 @@ public class MinMax {
 				board.move(m);
 				eval = minmax(board, depth - 1, alpha, beta , true, player);
 				minEval = Math.min(minEval, eval);
-				beta = Math.min(beta, eval);
+				beta = Math.min(beta, minEval);
 				board.undoMove(m);
-				if(beta <= alpha)
+				if (beta <= alpha) 
 					break;
 			}
 			return minEval;

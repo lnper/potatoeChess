@@ -2,6 +2,7 @@ package communication;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Timer;
 
 import algorithm.MinMax;
 import board.Board;
@@ -182,16 +183,10 @@ public class UCI {
 	public static void inputGo() {
 		String move = "";
 
-		/* coup random */ /*
-		ArrayList<String> legal = Moves.legalMove(board, isWhite);
-		int size = legal.size();
-		int randint = (int) (Math.random() * size);*/
-		
-		// IA
 		move = MinMax.alphaBeta(board, isWhite);
-
-		System.out.println("bestmove "+Board.numToMove(move));
 		
+		System.out.println("bestmove "+Board.numToMove(move));
+
 	}
 
 

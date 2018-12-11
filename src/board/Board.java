@@ -65,7 +65,7 @@ public class Board {
 	// Prend en entree un String move de la forme idepart jdepart iarrivee jarrivee piececapturee promotionverspiece
 	public void move(String move) {
 		// Nous devons envoyer dans cette methode le formalisme en 6 donnees
-		if(move.length() == 6) {
+	
 			int aStart = Character.getNumericValue(move.charAt(0));
 			int bStart = Character.getNumericValue(move.charAt(1));
 			int aEnd = Character.getNumericValue(move.charAt(2));
@@ -85,7 +85,6 @@ public class Board {
 			else if (prom != ' ') {
 				this.chessBoard[aEnd][bEnd] = Character.toString(prom);
 			}
-		}
 	}
 
 
@@ -103,21 +102,25 @@ public class Board {
 
 		// On enregistre temporairement le contenu de la case d'arrivee et on la vide
 		String temp = this.chessBoard[aEnd][bEnd];
-		this.chessBoard[aEnd][bEnd] = " ";
+		//this.chessBoard[aEnd][bEnd] = " ";
 
 		if (capt == ' ' && prom == ' ') {
 			this.chessBoard[aStart][bStart] = temp;
+			this.chessBoard[aEnd][bEnd] = " ";
 		}
 
 		else if (capt != ' ' && prom == ' ') {
+			this.chessBoard[aStart][bStart] = temp;
 			this.chessBoard[aEnd][bEnd] = Character.toString(capt);
 		}
 
 		else if (capt == ' ' && prom != ' ') {
 			if(Character.isUpperCase(prom)) {
+				this.chessBoard[aEnd][bEnd] = " ";
 				this.chessBoard[aStart][bStart] = "P";
 			}
 			else if(Character.isLowerCase(prom)) {
+				this.chessBoard[aEnd][bEnd] = " ";
 				this.chessBoard[aStart][bStart] = "p";
 			}
 		}
