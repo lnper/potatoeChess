@@ -162,7 +162,7 @@ public class Board {
 		String resultPositionYEnd = String.valueOf(positionYEnd);
 
 		//Si le mouvement contient une information de promotion
-		String promot = "";
+		String promot = " ";
 		if(move.length()==5){
 			promot = move.substring(4);
 		}
