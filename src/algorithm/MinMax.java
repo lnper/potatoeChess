@@ -37,7 +37,7 @@ public class MinMax {
 			for (String m : Moves.legalMove(board, player)) {
 				board.move(m);
 				eval = minmax(board, depth - 1, alpha, beta , false, player); 
-				if(eval > maxEval) this.bestMove = m;	// sauvegarde du meilleur mouvement
+				if(eval > maxEval && depth == DEPTH) this.bestMove = m;	// sauvegarde du meilleur mouvement
 				maxEval = Math.max(maxEval, eval);
 				alpha = Math.max(alpha, eval);
 				board.undoMove(m);
