@@ -39,20 +39,26 @@ public class Board {
 		int bStart = Character.getNumericValue(move.charAt(1));
 		int aEnd = Character.getNumericValue(move.charAt(2));
 		int bEnd = Character.getNumericValue(move.charAt(3));
-		
+
 
 		// On enregistre temporairement le contenu de la case de depart et on la vide
 		String temp = chessBoard[aStart][bStart];
 		this.chessBoard[aStart][bStart] = " ";
 
 		// On place ca dans la case de destination
-		
+
 		//si il s'agit d'un mouvement contenant une promotion :
-		if((move.charAt(5) != ' ')){
-			chessBoard[aEnd][bEnd] = Character.toString(move.charAt(5));
+		if(move.charAt(5) != ' '){
+			if(Character.isLowerCase(temp.charAt(0))) {
+				chessBoard[aEnd][bEnd] = Character.toString(move.charAt(5));
+			}
+			else {
+				chessBoard[aEnd][bEnd] = Character.toString(Character.toUpperCase(move.charAt(5)));
+			}
+			
 		}
 		else{
-		chessBoard[aEnd][bEnd] = temp;
+			chessBoard[aEnd][bEnd] = temp;
 		}
 	}
 
@@ -75,7 +81,7 @@ public class Board {
 				// On place ca dans la case de destination
 				this.chessBoard[aEnd][bEnd] = temp;
 			}
-			
+
 			else if (prom != ' ') {
 				this.chessBoard[aEnd][bEnd] = Character.toString(prom);
 			}
@@ -87,45 +93,45 @@ public class Board {
 	public void undoMove(String move) {
 
 		// Nous devons envoyer dans cette methode le formalisme en 6 donnees
-		
-			int aStart = Character.getNumericValue(move.charAt(0));
-			int bStart = Character.getNumericValue(move.charAt(1));
-			int aEnd = Character.getNumericValue(move.charAt(2));
-			int bEnd = Character.getNumericValue(move.charAt(3));
-			char capt = move.charAt(4);
-			char prom = move.charAt(5);
 
-			// On enregistre temporairement le contenu de la case d'arrivee et on la vide
-			String temp = this.chessBoard[aEnd][bEnd];
-			this.chessBoard[aEnd][bEnd] = " ";
-			
-			if (capt == ' ' && prom == ' ') {
-				this.chessBoard[aStart][bStart] = temp;
+		int aStart = Character.getNumericValue(move.charAt(0));
+		int bStart = Character.getNumericValue(move.charAt(1));
+		int aEnd = Character.getNumericValue(move.charAt(2));
+		int bEnd = Character.getNumericValue(move.charAt(3));
+		char capt = move.charAt(4);
+		char prom = move.charAt(5);
+
+		// On enregistre temporairement le contenu de la case d'arrivee et on la vide
+		String temp = this.chessBoard[aEnd][bEnd];
+		this.chessBoard[aEnd][bEnd] = " ";
+
+		if (capt == ' ' && prom == ' ') {
+			this.chessBoard[aStart][bStart] = temp;
+		}
+
+		else if (capt != ' ' && prom == ' ') {
+			this.chessBoard[aEnd][bEnd] = Character.toString(capt);
+		}
+
+		else if (capt == ' ' && prom != ' ') {
+			if(Character.isUpperCase(prom)) {
+				this.chessBoard[aStart][bStart] = "P";
 			}
-			
-			else if (capt != ' ' && prom == ' ') {
-				this.chessBoard[aEnd][bEnd] = Character.toString(capt);
-			}
-			
-			else if (capt == ' ' && prom != ' ') {
-				if(Character.isUpperCase(prom)) {
-					this.chessBoard[aStart][bStart] = "P";
-				}
-				else if(Character.isLowerCase(prom)) {
-					this.chessBoard[aStart][bStart] = "p";
-				}
-			}
-			
-			else if (capt != ' ' && prom != ' ') {
-				this.chessBoard[aEnd][bEnd] = Character.toString(capt);
-				if(Character.isUpperCase(prom)) {
-					this.chessBoard[aStart][bStart] = "P";
-				}
-				else if(Character.isLowerCase(prom)) {
-					this.chessBoard[aStart][bStart] = "p";
-				}
+			else if(Character.isLowerCase(prom)) {
+				this.chessBoard[aStart][bStart] = "p";
 			}
 		}
+
+		else if (capt != ' ' && prom != ' ') {
+			this.chessBoard[aEnd][bEnd] = Character.toString(capt);
+			if(Character.isUpperCase(prom)) {
+				this.chessBoard[aStart][bStart] = "P";
+			}
+			else if(Character.isLowerCase(prom)) {
+				this.chessBoard[aStart][bStart] = "p";
+			}
+		}
+	}
 
 	// Permet de detecter les pieces du plateau, a continuer...
 	public static void importFEN(String fenString) {
@@ -154,9 +160,9 @@ public class Board {
 		// Pour la position Y d'arrivee	
 		int positionYEnd = 8-Character.getNumericValue(move.charAt(3));
 		String resultPositionYEnd = String.valueOf(positionYEnd);
-		
+
 		//Si le mouvement contient une information de promotion
-		String promot = " ";
+		String promot = "";
 		if(move.length()==5){
 			promot = move.substring(4);
 		}
@@ -195,7 +201,7 @@ public class Board {
 
 		return result;
 	}
-	
+
 	public boolean gameOver() {
 		return Moves.legalMove(this, true).isEmpty() || Moves.legalMove(this, false).isEmpty();
 	}

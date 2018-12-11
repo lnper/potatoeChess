@@ -147,8 +147,9 @@ public class UCI {
 
 					move = input.substring(0,4);
 
-					if(!(input.charAt(4)==' ')){ //Si on est dans le cas d'une promotion
-						move+=input.charAt(4);
+					//Si on est dans le cas d'une promotion
+					if(input.charAt(4) != ' '){ 
+						move += input.charAt(4);
 					}
 					
 					// Nous le traitons
