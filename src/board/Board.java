@@ -63,20 +63,20 @@ public class Board {
 			int bStart = Character.getNumericValue(move.charAt(1));
 			int aEnd = Character.getNumericValue(move.charAt(2));
 			int bEnd = Character.getNumericValue(move.charAt(3));
-			String capt = String.valueOf(move.charAt(4));
-			String prom = String.valueOf(move.charAt(5));
+			char capt = move.charAt(4);
+			char prom = move.charAt(5);
 
 			// On enregistre temporairement le contenu de la case de depart et on la vide
 			String temp = this.chessBoard[aStart][bStart];
 			this.chessBoard[aStart][bStart] = " ";
 
-			if (prom == " ") {
+			if (prom == ' ') {
 				// On place ca dans la case de destination
 				this.chessBoard[aEnd][bEnd] = temp;
 			}
 			
-			else if (prom != " ") {
-				this.chessBoard[aEnd][bEnd] = prom;
+			else if (prom != ' ') {
+				this.chessBoard[aEnd][bEnd] = Character.toString(prom);
 			}
 		}
 	}
@@ -91,36 +91,36 @@ public class Board {
 			int bStart = Character.getNumericValue(move.charAt(1));
 			int aEnd = Character.getNumericValue(move.charAt(2));
 			int bEnd = Character.getNumericValue(move.charAt(3));
-			String capt = String.valueOf(move.charAt(4));
-			String prom = String.valueOf(move.charAt(5));
+			char capt = move.charAt(4);
+			char prom = move.charAt(5);
 
 			// On enregistre temporairement le contenu de la case d'arrivee et on la vide
 			String temp = this.chessBoard[aEnd][bEnd];
 			this.chessBoard[aEnd][bEnd] = " ";
 			
-			if (capt == " " && prom == " ") {
+			if (capt == ' ' && prom == ' ') {
 				this.chessBoard[aStart][bStart] = temp;
 			}
 			
-			else if (capt != " " && prom == " ") {
-				this.chessBoard[aEnd][bEnd] = capt;
+			else if (capt != ' ' && prom == ' ') {
+				this.chessBoard[aEnd][bEnd] = Character.toString(capt);
 			}
 			
-			else if (capt == " " && prom != " ") {
-				if(prom == prom.toUpperCase()) {
+			else if (capt == ' ' && prom != ' ') {
+				if(Character.isUpperCase(prom)) {
 					this.chessBoard[aStart][bStart] = "P";
 				}
-				else if(prom == prom.toLowerCase()) {
+				else if(Character.isLowerCase(prom)) {
 					this.chessBoard[aStart][bStart] = "p";
 				}
 			}
 			
-			else if (capt != " " && prom != " ") {
-				this.chessBoard[aEnd][bEnd] = capt;
-				if(prom == prom.toUpperCase()) {
+			else if (capt != ' ' && prom != ' ') {
+				this.chessBoard[aEnd][bEnd] = Character.toString(capt);
+				if(Character.isUpperCase(prom)) {
 					this.chessBoard[aStart][bStart] = "P";
 				}
-				else if(prom == prom.toLowerCase()) {
+				else if(Character.isLowerCase(prom)) {
 					this.chessBoard[aStart][bStart] = "p";
 				}
 			}
