@@ -1,6 +1,7 @@
 package board;
 
 import move.Evaluation;
+import move.Moves;
 
 import java.util.Arrays;
 
@@ -195,6 +196,10 @@ public class Board {
 		result = resultBStart + resultAStart + resultBEnd + resultAEnd;
 
 		return result;
+	}
+	
+	public boolean gameOver() {
+		return Moves.legalMove(this, true).isEmpty() || Moves.legalMove(this, false).isEmpty();
 	}
 
 	// Affiche l'etat du tableau
