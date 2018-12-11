@@ -24,7 +24,7 @@ public class MinMax {
 	/////////////// algo min max avec alpha beta ////////////////////////////////////////////////
 	private int minmax(Board board, int depth, int alpha, int beta, boolean maximizingPlayer, boolean player) {
 
-		if (0 == depth || gameOver(board) ) return Evaluation.evaluate(board, player);
+		if (0 == depth || Moves.legalMove(board, player).isEmpty() ) return Evaluation.evaluate(board, player);
 
 		int eval;
 		int maxEval;

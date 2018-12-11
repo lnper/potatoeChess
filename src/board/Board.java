@@ -32,6 +32,8 @@ public class Board {
 
 		// On fait la tranformation pour que l'information puisse etre lue dans notre tableau
 		move = moveToNum(move);
+		System.out.println(move);
+		System.out.println(move.length());
 
 		//On transforme en int les donnees de move
 		int aStart = Character.getNumericValue(move.charAt(0));
@@ -47,8 +49,8 @@ public class Board {
 		// On place ca dans la case de destination
 		
 		//si il s'agit d'un mouvement contenant une promotion :
-		if(move.length()==5){
-			chessBoard[aEnd][bEnd] = move.substring(4);
+		if((move.charAt(5) != ' ')){
+			chessBoard[aEnd][bEnd] = Character.toString(move.charAt(5));
 		}
 		else{
 		chessBoard[aEnd][bEnd] = temp;
@@ -155,7 +157,7 @@ public class Board {
 		String resultPositionYEnd = String.valueOf(positionYEnd);
 		
 		//Si le mouvement contient une information de promotion
-		String promot = "";
+		String promot = " ";
 		if(move.length()==5){
 			promot = move.substring(4);
 		}

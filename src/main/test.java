@@ -11,7 +11,9 @@ public class test {
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.initialize();
-		//board.print();
-		MinMax.alphaBeta(board, true);
+		board.print();
+		board.readMove("b2b3 ");
+		board.print();
+		//MinMax.alphaBeta(board, true);
 	}
 }
