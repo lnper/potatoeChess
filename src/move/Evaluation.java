@@ -273,7 +273,6 @@ public class Evaluation {
 		return result;
 	}
 
-
 	/*
 	 * Estimation des positions a favoriser durant la partie
 	 */
