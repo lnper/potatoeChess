@@ -87,58 +87,58 @@ public class Evaluation {
 
 		for(int i = 0; i<plateau.length ; i++) {
 			for(int j = 0 ; j<plateau.length ; j++) {
-				if(plateau[i][j] == "r" || plateau[i][j] == "n" || plateau[i][j] == "b" || plateau[i][j] == "q" || plateau[i][j] == "k" || plateau[i][j] == "p") {
+				if(plateau[i][j].equals("r") || plateau[i][j].equals("n") || plateau[i][j].equals("b") || plateau[i][j].equals("q") || plateau[i][j].equals("k") || plateau[i][j].equals("p")) {
 					comptBlack++;
-					if(plateau[i][j] == "r") {
+					if(plateau[i][j].equals("r")) {
 						comptr++;
 						comptPointsr += ROOK[7-i][7-j];
 					}
-					if(plateau[i][j] == "n") {
+					if(plateau[i][j].equals("n")) {
 						comptn++;
 						comptPointsn += KNIGHT[7-i][7-j];
 					}
-					if(plateau[i][j] == "b") {
+					if(plateau[i][j].equals("b")) {
 						comptb++;
 						comptPointsb += BISHOP[7-i][7-j];
 					}
-					if(plateau[i][j] == "q") {
+					if(plateau[i][j].equals("q")) {
 						comptq++;
 						comptPointsq += QUEEN[7-i][7-j];
 					}
-					if(plateau[i][j] == "k") {
+					if(plateau[i][j].equals("k")) {
 						comptk++;
 						if(ENDGAME) comptPointsk += KING_ENDGAME[7-i][7-j];
 						else comptPointsk += KING[7-i][7-j];
 					}
-					if(plateau[i][j] == "p") {
+					if(plateau[i][j].equals("p")) {
 						comptp++;
 						comptPointsp += PAWN[7-i][7-j];
 					}
 				}
-				else if(plateau[i][j] == "R" || plateau[i][j] == "N" || plateau[i][j] == "B" || plateau[i][j] == "Q" || plateau[i][j] == "K" || plateau[i][j] == "P") {
+				else if(plateau[i][j].equals("R") || plateau[i][j].equals("N") || plateau[i][j].equals("B") || plateau[i][j].equals("Q") || plateau[i][j].equals("K") || plateau[i][j].equals("P")) {
 					comptWhite++;
-					if(plateau[i][j] == "R") {
+					if(plateau[i][j].equals("R")) {
 						comptR++;
 						comptPointsR += ROOK[i][j];
 					}
-					if(plateau[i][j] == "N") {
+					if(plateau[i][j].equals("N")) {
 						comptN++;
 						comptPointsN += KNIGHT[i][j];
 					}
-					if(plateau[i][j] == "B") {
+					if(plateau[i][j].equals("B")) {
 						comptB++;
 						comptPointsB += BISHOP[i][j];
 					}
-					if(plateau[i][j] == "Q") {
+					if(plateau[i][j].equals("Q")) {
 						comptQ++;
 						comptPointsQ += QUEEN[i][j];
 					}
-					if(plateau[i][j] == "K") {
+					if(plateau[i][j].equals("K")) {
 						comptK++;
 						if(ENDGAME) comptPointsK += KING_ENDGAME[i][j];
 						else comptPointsK += KING[i][j];
 					}
-					if(plateau[i][j] == "P") {
+					if(plateau[i][j].equals("P")) {
 						comptP++;
 						comptPointsP += PAWN[i][j];
 					}
