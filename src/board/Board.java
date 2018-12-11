@@ -33,8 +33,6 @@ public class Board {
 
 		// On fait la tranformation pour que l'information puisse etre lue dans notre tableau
 		move = moveToNum(move);
-		System.out.println(move);
-		System.out.println(move.length());
 
 		//On transforme en int les donnees de move
 		int aStart = Character.getNumericValue(move.charAt(0));

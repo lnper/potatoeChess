@@ -23,7 +23,7 @@ public class MinMax {
 
 	/////////////// algo min max avec alpha beta ////////////////////////////////////////////////
 	private int minmax(Board board, int depth, int alpha, int beta, boolean maximizingPlayer, boolean player) {
-
+		
 		if (0 == depth || board.gameOver() ) return Evaluation.evaluate(board, player);
 
 		int eval;
@@ -41,7 +41,8 @@ public class MinMax {
 				maxEval = Math.max(maxEval, eval);
 				alpha = Math.max(alpha, eval);
 				board.undoMove(m);
-				if (beta >= alpha) return maxEval;              // so cut here (pruning)
+				if (beta <= alpha)
+					break;// so cut here (pruning)
 			}
 			return maxEval;	
 
@@ -54,6 +55,8 @@ public class MinMax {
 				minEval = Math.min(minEval, eval);
 				beta = Math.min(beta, eval);
 				board.undoMove(m);
+				if(beta <= alpha)
+					break;
 			}
 			return minEval;
 		}
