@@ -108,75 +108,62 @@ public class UCI {
 
 	public static void inputPosition(String input) {
 
-		// Gerer l'erreur d'une mauvaise entree (uniquement pour les tests sur console)
-		if(input.length() == 8) {
+
+
+		input = input.substring(POSITION.length()+1).concat(" ");
+
+		boolean accepted = false;
+		if (input.contains(STARTPOSITION)) {
+			input = input.substring(input.indexOf(STARTPOSITION) + STARTPOSITION.length()+1);
+			//ChessBoardGenerator.importFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+			board = new Board();
+			board.initialize();
 		}
 
-		else {
+		else if (input.contains(FEN)) {
+			input = input.substring(FEN.length()+1);
 
-			input = input.substring(POSITION.length()+1).concat(" ");
-
-			boolean accepted = false;
-			if (input.contains(STARTPOSITION)) {
-				input = input.substring(input.indexOf(STARTPOSITION) + STARTPOSITION.length()+1);
-				//ChessBoardGenerator.importFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-				board = new Board();
-				board.initialize();
-				accepted = true;
+			if(input.length()>1) {
+				Board.importFEN(input);
+				if(input.contains(" w ")) isWhite = true;
+				else if(input.contains(" b ")) isWhite = false;
 			}
 
-			else if (input.contains(FEN)) {
-				input = input.substring(FEN.length()+1);
-
-				if(input.length()>1) {
-					Board.importFEN(input);
-					if(input.contains(" w ")) isWhite = true;
-					else if(input.contains(" b ")) isWhite = false;
-				}
-
-			}
-
-			// Prendre en consideration l'ensemble des mouvements ordonnes
-			if (input.contains(MOVES)) {
-				
-				int comptMoves = 0;
-				input = input.substring(input.indexOf(MOVES) + MOVES.length()+1);
-
-				while (input.length() > 0) {
-					String move;
-					// Nous nous interessons au premier mouvement de la String
-
-					move = input.substring(0,4);
-
-					//Si on est dans le cas d'une promotion
-					if(input.charAt(4) != ' '){ 
-						move += input.charAt(4);
-					}
-					
-					// Nous le traitons
-					board.readMove(move);
-					// Nous enlevons ce mouvement a la String puisqu'il a ete traite
-					input = input.substring(input.indexOf(' ')+1);
-					comptMoves++;
-				}
-
-				// Indique au premier coup si l'on est blanc ou noir
-				if(comptMoves == 0) {
-					isWhite = true;
-				}
-				
-				else if(comptMoves == 1) {
-					isWhite = false;
-				}
-
-				accepted = true;
-			}
-
-			else if(accepted == false) {
-			}
 		}
 
+		// Prendre en consideration l'ensemble des mouvements ordonnes
+		if (input.contains(MOVES)) {
 
+			int comptMoves = 0;
+			input = input.substring(input.indexOf(MOVES) + MOVES.length()+1);
+
+			while (input.length() > 0) {
+				String move;
+				// Nous nous interessons au premier mouvement de la String
+
+				move = input.substring(0,4);
+
+				//Si on est dans le cas d'une promotion
+				if(input.charAt(4) != ' '){ 
+					move += input.charAt(4);
+				}
+
+				// Nous le traitons
+				board.readMove(move);
+				// Nous enlevons ce mouvement a la String puisqu'il a ete traite
+				input = input.substring(input.indexOf(' ')+1);
+				comptMoves++;
+			}
+
+			// Indique au premier coup si l'on est blanc ou noir
+			if(comptMoves%2 == 0) {
+				isWhite = true;
+			}
+
+			else if(comptMoves%2 == 1) {
+				isWhite = false;
+			}
+		}
 	}
 
 	// Calculer le meilleur mouvement pour jouer
@@ -184,7 +171,7 @@ public class UCI {
 		String move = "";
 
 		move = MinMax.alphaBeta(board, isWhite);
-		
+
 		System.out.println("bestmove "+Board.numToMove(move));
 
 	}
