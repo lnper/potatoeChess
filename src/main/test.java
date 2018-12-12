@@ -12,8 +12,7 @@ public class test {
 		Board board = new Board();
 		board.initialize();
 		board.print();
-		String move = MinMax.alphaBeta(board, true);
-		System.out.println(Board.numToMove(move));
+		board.readMove("e8g8 ");
 		board.print();
 		//MinMax.alphaBeta(board, true);
 	}

@@ -17,14 +17,14 @@ public class Board {
 	// Initialise le plateau 
 	public void initialize(){
 		chessBoard = new String[][]{
-			{"r","n","b","q","k","b","n","r"},
+			{"r"," "," "," ","k"," "," ","r"},
 			{"p","p","p","p","p","p","p","p"},
 			{" "," "," "," "," "," "," "," "},
 			{" "," "," "," "," "," "," "," "},
 			{" "," "," "," "," "," "," "," "},
 			{" "," "," "," "," "," "," "," "},
 			{"P","P","P","P","P","P","P","P"},
-			{"R","N","B","Q","K","B","N","R"}};
+			{"R"," "," "," ","K"," "," ","R"}};
 
 	}
 
@@ -40,51 +40,58 @@ public class Board {
 		int aEnd = Character.getNumericValue(move.charAt(2));
 		int bEnd = Character.getNumericValue(move.charAt(3));
 
-
-		// On enregistre temporairement le contenu de la case de depart et on la vide
-		String temp = chessBoard[aStart][bStart];
-		this.chessBoard[aStart][bStart] = " ";
-
-		// On place ca dans la case de destination
-
-		//si il s'agit d'un mouvement contenant une promotion :
-		if(move.charAt(5) != ' '){
-			if(Character.isLowerCase(temp.charAt(0))) {
-				chessBoard[aEnd][bEnd] = Character.toString(move.charAt(5));
-			}
-			else {
-				chessBoard[aEnd][bEnd] = Character.toString(Character.toUpperCase(move.charAt(5)));
-			}
-			
+		//Si le mouvement est un petit roque ou un grand roque
+		if(isCastlingMove(move)){
+			System.out.println("roque");
+			makeCastlingMove(aStart, bStart, aEnd, bEnd);
 		}
 		else{
-			chessBoard[aEnd][bEnd] = temp;
+
+			// On enregistre temporairement le contenu de la case de depart et on la vide
+			String temp = chessBoard[aStart][bStart];
+			this.chessBoard[aStart][bStart] = " ";
+
+			// On place ca dans la case de destination
+
+			//si il s'agit d'un mouvement contenant une promotion :
+			if(move.charAt(5) != ' '){
+				if(Character.isLowerCase(temp.charAt(0))) {
+					chessBoard[aEnd][bEnd] = Character.toString(move.charAt(5));
+				}
+				else {
+					chessBoard[aEnd][bEnd] = Character.toString(Character.toUpperCase(move.charAt(5)));
+				}
+
+			}
+			else{
+				chessBoard[aEnd][bEnd] = temp;
+			}
 		}
 	}
 
 	// Prend en entree un String move de la forme idepart jdepart iarrivee jarrivee piececapturee promotionverspiece
 	public void move(String move) {
 		// Nous devons envoyer dans cette methode le formalisme en 6 donnees
-	
-			int aStart = Character.getNumericValue(move.charAt(0));
-			int bStart = Character.getNumericValue(move.charAt(1));
-			int aEnd = Character.getNumericValue(move.charAt(2));
-			int bEnd = Character.getNumericValue(move.charAt(3));
-			char capt = move.charAt(4);
-			char prom = move.charAt(5);
 
-			// On enregistre temporairement le contenu de la case de depart et on la vide
-			String temp = this.chessBoard[aStart][bStart];
-			this.chessBoard[aStart][bStart] = " ";
+		int aStart = Character.getNumericValue(move.charAt(0));
+		int bStart = Character.getNumericValue(move.charAt(1));
+		int aEnd = Character.getNumericValue(move.charAt(2));
+		int bEnd = Character.getNumericValue(move.charAt(3));
+		char capt = move.charAt(4);
+		char prom = move.charAt(5);
 
-			if (prom == ' ') {
-				// On place ca dans la case de destination
-				this.chessBoard[aEnd][bEnd] = temp;
-			}
+		// On enregistre temporairement le contenu de la case de depart et on la vide
+		String temp = this.chessBoard[aStart][bStart];
+		this.chessBoard[aStart][bStart] = " ";
 
-			else if (prom != ' ') {
-				this.chessBoard[aEnd][bEnd] = Character.toString(prom);
-			}
+		if (prom == ' ') {
+			// On place ca dans la case de destination
+			this.chessBoard[aEnd][bEnd] = temp;
+		}
+
+		else if (prom != ' ') {
+			this.chessBoard[aEnd][bEnd] = Character.toString(prom);
+		}
 	}
 
 
@@ -142,6 +149,26 @@ public class Board {
 
 	}
 
+	//Roque :
+	public static boolean isCastlingMove(String move){
+		return (move.equals("7476  ") || move.equals("0406  ") ||
+				move.equals("7472  ") || move.equals("0402  "));
+	}
+	
+	public void makeCastlingMove(int aStart, int bStart, int aEnd, int bEnd){
+		this.chessBoard[aEnd][bEnd] = this.chessBoard[aStart][bStart]; //position du roi
+		this.chessBoard[aStart][bStart] = " "; //ancienne position du roi
+		if(bEnd == 6) // dans le cas d'un petit roque
+		{
+			this.chessBoard[aEnd][bEnd-1] = this.chessBoard[aEnd][7]; //position de la tour
+			this.chessBoard[aEnd][7] = " "; //ancienneposition de la tour
+		}
+		else{ //sinon, si c'est un grand roque
+			this.chessBoard[aEnd][bEnd+1] = this.chessBoard[aEnd][0]; //position de la tour
+			this.chessBoard[aEnd][0] = " ";
+		}	
+	}
+	
 
 	// Permet de transformer un mouvement en nombre pour notre tableau. Par exemple : b2b3 => 1615. Cela sera compris par le mouvement chessBoard[6][1] => chessBoard[5][1]
 	public static String moveToNum(String move) {
