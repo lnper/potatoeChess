@@ -1,7 +1,7 @@
 package algorithm;
 
-import board.Board;
 import move.Moves;
+import environnement.Environment;
 import move.Evaluation;
 
 public class MinMax {
@@ -14,7 +14,7 @@ public class MinMax {
 	}
 	
 	///////////////// fonction static ///////////////////////////////////////////////////////////
-	public static String alphaBeta(Board board, boolean player) {
+	public static String alphaBeta(Environment board, boolean player) {
 		MinMax algo = new MinMax();
 		int score = algo.minmax (board, DEPTH, -1000000, 1000000, true, player);
 		
@@ -22,9 +22,10 @@ public class MinMax {
 	}
 
 	/////////////// algo min max avec alpha beta ////////////////////////////////////////////////
-	private int minmax(Board board, int depth, int alpha, int beta, boolean maximizingPlayer, boolean player) {
+	private int minmax(Environment board, int depth, int alpha, int beta, boolean maximizingPlayer, boolean player) {
 		
-		if (0 == depth || board.gameOver() ) return Evaluation.evaluate(board, player);
+		if (0 == depth || board.gameOver()) 
+			return Evaluation.evaluate(board, player);
 
 		int eval;
 		int maxEval;
@@ -43,7 +44,6 @@ public class MinMax {
 				board.undoMove(m);
 				if (beta <= alpha) 
 					break;
-				// so cut here (pruning)
 			}
 			return maxEval;	
 

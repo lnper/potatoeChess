@@ -2,11 +2,11 @@ package move;
 
 import java.util.ArrayList;
 
-import board.Board;
+import environnement.Environment;
 
 public class Moves {
 
-	public static ArrayList<String> legalMove(Board board, boolean isWhite){
+	public static ArrayList<String> legalMove(Environment board, boolean isWhite){
 		ArrayList<String> possibleMoveList= new ArrayList<String>();
 		//On parcours le plateau pour ajouter a chaque fois les mouvements possibles
 		String[][] chessBoard = board.getChessBoard();
@@ -21,7 +21,7 @@ public class Moves {
 				if(pieceAnalysee.equals(pieces[0])) //Si c'est un pion
 					possibleMoveList.addAll(legalMoveP(board, isWhite, i, j));
 				
-				else if(pieceAnalysee.equals(pieces[1])) //Si c'est une tours
+				else if(pieceAnalysee.equals(pieces[1])) //Si c'est une tour
 					possibleMoveList.addAll(legalMoveR(board, isWhite, i, j));
 				
 				else if(pieceAnalysee.equals(pieces[2])) //Si c'est un cavalier
@@ -40,6 +40,7 @@ public class Moves {
 		return possibleMoveList;
 	}
 
+	//génère la liste des pieces du joueur
 	public static String[] myPieces(boolean isWhite){
 		if(isWhite)
 			return new String[]{"P","R","N","B","Q","K"};
@@ -48,7 +49,7 @@ public class Moves {
 	}
 
 	//mouvements legaux des pions en position i,j
-	public static ArrayList<String> legalMoveP(Board board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMoveP(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possiblePawnMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 
@@ -126,7 +127,7 @@ public class Moves {
 	}
 
 	//mouvements legaux des tours en position i,j
-	public static ArrayList<String> legalMoveR(Board board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMoveR(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleRookMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		int distance=1;
@@ -154,7 +155,7 @@ public class Moves {
 	}
 
 	//mouvements legaux des cavaliers en position i,j
-	public static ArrayList<String> legalMoveN(Board board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMoveN(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleKnightMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		for(int k=-2; k<=2; k++){
@@ -173,7 +174,7 @@ public class Moves {
 	}
 
 	//mouvements legaux des fous en position i,j
-	public static ArrayList<String> legalMoveB(Board board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMoveB(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleBishopMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		int distance=1;
@@ -201,7 +202,7 @@ public class Moves {
 	}
 
 	//mouvements legaux de la reine en position i,j
-	public static ArrayList<String> legalMoveQ(Board board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMoveQ(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleQueenMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		int distance=1;
@@ -229,7 +230,7 @@ public class Moves {
 	}
 
 	//mouvements legaux du roi en position i,j
-	public static ArrayList<String> legalMoveK(Board board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMoveK(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleKingMoves= new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		for(int k=-1; k<=1; k++){
@@ -248,7 +249,7 @@ public class Moves {
 		return possibleKingMoves;
 	}
 
-	public static boolean simulateMoveForKingCheck(Board board, boolean isWhite, int i, int j, int ni, int nj){
+	public static boolean simulateMoveForKingCheck(Environment board, boolean isWhite, int i, int j, int ni, int nj){
 		//Cette fonction simule le mouvement d'une piece de (i,j) à (ni, nj) pour s'assurer 
 		//que le mouvement ne met pas le roi en echec
 		//Elle renvoie true si le mouvement est légal et false sinon
@@ -257,38 +258,45 @@ public class Moves {
 
 		String[][] chessBoard = board.getChessBoard();
 
+		//On mémorise la configuration actuelle dans des buffers
 		String bufferIJ = chessBoard[i][j];
 		String bufferNiNj = chessBoard[ni][nj];
 
+		//On effectue le mouvement 
 		chessBoard[ni][nj] = bufferIJ; 
 		chessBoard[i][j] = " ";
 
-
+		//Y'a t'il un échec à la fin du mouvement?
 		boolean kingCheck = kingCheck(board, isWhite);
 
+		//On annule le mouvement
 		chessBoard[i][j] = bufferIJ;
 		chessBoard[ni][nj] = bufferNiNj;
 
+		//On retourne true si la configuration testée ne mène pas à un échec, false sinon.
 		return !kingCheck;
 
 	}
 
-	public static boolean kingCheck(Board board, boolean isWhite){ //cette fonction regarde les échecs au roi en fonction de la position des pièces ennemis
+	public static boolean kingCheck(Environment board, boolean isWhite){ //cette fonction regarde les échecs au roi en fonction de la position des pièces ennemis
+		//position du roi du joueur actuel
 		int kingPosI = myKingPosition(board, isWhite)[0];
 		int kingPosJ = myKingPosition(board, isWhite)[1];
 		
-
+		//on génère les différents booleens correspondant au possibilités d'échec au roi 
+		//Echec par une pièce à mouvement diagonal (fous, reines)
+		//Echec par une pièce à mouvement droit (tours, reines)
+		//Echec par les cavaliers
+		//Echecs par les pions
 		boolean isCheck1 = checkByDiagonallyMovingPieces(board, isWhite, kingPosI, kingPosJ);
 		boolean isCheck2 = checkcheckByAlongRankMovingPieces(board, isWhite, kingPosI, kingPosJ);
 		boolean isCheck3 = checkByNights(board, isWhite, kingPosI, kingPosJ);
 		boolean isCheck4 = checkByPawns(board, isWhite, kingPosI, kingPosJ);
 
-		//calcul des échecs en ligne droite (Reine et tours)
-		//System.out.println(isCheck1 || isCheck2 || isCheck3 || isCheck4);
 		return (isCheck1 || isCheck2 || isCheck3 || isCheck4);
 	}
 
-	private static boolean checkByPawns(Board board, boolean isWhite, int kingPosI, int kingPosJ) {
+	private static boolean checkByPawns(Environment board, boolean isWhite, int kingPosI, int kingPosJ) {
 		String[][] chessBoard = board.getChessBoard();
 		int pawnDirection;
 		if(isWhite){
@@ -298,7 +306,7 @@ public class Moves {
 			pawnDirection=1;
 		}
 		for(int k=-1; k<=1; k+=2){
-			if(isInBoard(kingPosI+pawnDirection, kingPosJ+k)){
+			if(isInBoard(kingPosI+pawnDirection, kingPosJ+k)){ 
 				String caseEvaluee = chessBoard[kingPosI+pawnDirection][kingPosJ+k];
 				if(caseEvaluee.equals(myPieces(!isWhite)[0])){
 					return true;
@@ -308,7 +316,7 @@ public class Moves {
 		return false;
 	}
 
-	private static boolean checkByNights(Board board, boolean isWhite, int kingPosI, int kingPosJ) {
+	private static boolean checkByNights(Environment board, boolean isWhite, int kingPosI, int kingPosJ) {
 		String[][] chessBoard = board.getChessBoard();
 		//calcul en echec par les cavaliers :
 		for(int k=-2; k<=2; k++){
@@ -324,7 +332,7 @@ public class Moves {
 		return false;
 	}
 
-	private static boolean checkcheckByAlongRankMovingPieces(Board board, boolean isWhite, int kingPosI, int kingPosJ) {
+	private static boolean checkcheckByAlongRankMovingPieces(Environment board, boolean isWhite, int kingPosI, int kingPosJ) {
 		String[][] chessBoard = board.getChessBoard();
 		int distance=1;
 		for(int k=-1; k<=1; k++){
@@ -347,7 +355,7 @@ public class Moves {
 		return false;
 	}
 
-	private static boolean checkByDiagonallyMovingPieces(Board board, boolean isWhite, int kingPosI, int kingPosJ) {
+	private static boolean checkByDiagonallyMovingPieces(Environment board, boolean isWhite, int kingPosI, int kingPosJ) {
 		String[][] chessBoard = board.getChessBoard();
 		//calcul des echecs en diagonale (Reine et Fou) : 
 		int distance = 1;
@@ -371,7 +379,8 @@ public class Moves {
 		return false;
 	}
 
-	public static int[] myKingPosition(Board board, boolean isWhite){
+	//retourne la position du roi du joueur actuel
+	public static int[] myKingPosition(Environment board, boolean isWhite){
 		String myKing;
 		if(isWhite)
 			myKing="K";
@@ -390,11 +399,12 @@ public class Moves {
 		return pos;
 	}
 
-
-	public static boolean isInBoard(int i, int j){ //fonction qui verifie si deux coord sont dans le palteau
+	//fonction qui verifie si deux coord sont dans le palteau
+	public static boolean isInBoard(int i, int j){ 
 		return(i>=0 && i<8 && j>=0 && j<8);
 	}
 
+	//fonction qui verifie si une case évaluée contient une pièce de l'ennemi courant
 	public static boolean isEnnemy(String caseEvaluee, boolean isWhite) { //il y a un ennmi sur la case evaluee
 		if(isWhite) //Si je joue les blancs
 			return Character.isLowerCase(caseEvaluee.charAt(0)); 
@@ -402,6 +412,7 @@ public class Moves {
 		return Character.isUpperCase(caseEvaluee.charAt(0));
 	}
 
+	//fonction qui vérifie si la case testée est vide
 	public static boolean isEmptyCase(String caseEvaluee){//la case evaluee est vide
 		return caseEvaluee.equals(" ");
 	}

@@ -1,13 +1,8 @@
 package communication;
-
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Timer;
-
 import algorithm.MinMax;
-import board.Board;
-import move.Moves;
-import move.ThreadHandler;
+import environnement.Environment;
+
 
 
 /*	
@@ -17,7 +12,7 @@ import move.ThreadHandler;
 public class UCI {
 
 	// Configurations
-	static String ENGINENAME="Nurblag Chess";
+	static String ENGINENAME="Potatoe Chess";
 	static String AUTHORS = "Benoit Manhes, Lilian Pattier, Pierre Scalzo";
 
 	// Entrees possibles
@@ -33,7 +28,7 @@ public class UCI {
 	static String QUIT = "quit";
 	static String PRINT = "print";
 
-	public static Board board;
+	public static Environment board;
 	public static Boolean isWhite = true;
 
 	public static void uciCommunication() {
@@ -91,11 +86,11 @@ public class UCI {
 	public static void inputUCI() {
 		System.out.println("id name "+ENGINENAME);
 		System.out.println("id author "+AUTHORS);
-		//options go here
 		System.out.println("uciok");
 	}
 
 	public static void inputSetOption(String inputString) {
+		//Possibilite d'ajouter des options
 	}
 
 	public static void inputIsReady() {
@@ -103,24 +98,21 @@ public class UCI {
 	}
 
 	public static void inputUCINewGame() {
-		board = new Board();
+		board = new Environment();		
 	}
 
 	public static void inputPosition(String input) {
 
-
-
 		input = input.substring(POSITION.length()+1).concat(" ");
 
-		boolean accepted = false;
 		if (input.contains(STARTPOSITION)) {
 			input = input.substring(input.indexOf(STARTPOSITION) + STARTPOSITION.length()+1);
-			//ChessBoardGenerator.importFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-			board = new Board();
+		
+			board = new Environment();
 			board.initialize();
 		}
 
-		else if (input.contains(FEN)) {
+	/*	else if (input.contains(FEN)) {
 			input = input.substring(FEN.length()+1);
 
 			if(input.length()>1) {
@@ -130,7 +122,7 @@ public class UCI {
 			}
 
 		}
-
+*/
 		// Prendre en consideration l'ensemble des mouvements ordonnes
 		if (input.contains(MOVES)) {
 
@@ -149,7 +141,7 @@ public class UCI {
 				}
 
 				// Nous le traitons
-				board.readMove(move);
+				board.applyMoveFromArena(move);
 				// Nous enlevons ce mouvement a la String puisqu'il a ete traite
 				input = input.substring(input.indexOf(' ')+1);
 				comptMoves++;
@@ -172,7 +164,7 @@ public class UCI {
 
 		move = MinMax.alphaBeta(board, isWhite);
 
-		System.out.println("bestmove "+Board.numToMove(move));
+		System.out.println("bestmove "+Environment.parseCBmoveToAmove(move));
 
 	}
 
