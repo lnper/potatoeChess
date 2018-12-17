@@ -3,10 +3,6 @@ package environnement;
 import move.Evaluation;
 import move.Moves;
 
-import java.util.Arrays;
-
-import communication.UCI;
-
 //INFO : 
 //Dans cette classe, on gère les infos reçu via l'UCI de la part d'Arena
 
@@ -31,8 +27,72 @@ public class Environment {
 			{"R","N","B","Q","K","B","N","R"}};
 
 	}
-	
-	
+
+	// Permet de convertir un mouvement au format algebrique (Arena) en un mouvement au format 
+	//interne implémentable sur notre tableau (ChessBoard) 
+	//Par exemple : b2b3 => 6151. 
+	public static String parseAmoveToCBmove(String move) {
+
+		String result = "";
+
+		// Pour la position X de depart
+		int asciiStart = (int) move.charAt(0);
+		int positionXStart = asciiStart-97;
+		String resultPositionXStart = String.valueOf(positionXStart);
+		// Pour la position Y de depart
+		int positionYStart = 8-Character.getNumericValue(move.charAt(1));
+		String resultPositionYStart = String.valueOf(positionYStart);
+
+		// Pour la position X d'arrivee
+		int asciiEnd = (int) move.charAt(2);
+		int positionXEnd = asciiEnd-97;
+		String resultPositionXEnd = String.valueOf(positionXEnd);
+		// Pour la position Y d'arrivee	
+		int positionYEnd = 8-Character.getNumericValue(move.charAt(3));
+		String resultPositionYEnd = String.valueOf(positionYEnd);
+
+		//Si le mouvement contient une information de promotion
+		String promot = " ";
+		if(move.length()==5){
+			promot = move.substring(4);
+		}
+
+		result = resultPositionYStart+resultPositionXStart+resultPositionYEnd+resultPositionXEnd+" "+promot;
+
+		return result;
+	}
+
+	// Permet de convertir un mouvement au format interne (compris par notre moteur) en un 
+	//mouvement au format algébrique compris par Arena
+	//Par exemple : 6151 => b2b3.
+	public static String parseCBmoveToAmove(String num) {
+
+		String result = "";
+
+		//Pour la position A de depart
+		int positionAStart = Character.getNumericValue(num.charAt(0));
+		int valeurAStart = 8-Integer.valueOf(positionAStart);
+		String resultAStart = String.valueOf(valeurAStart);
+
+		// Pour la position B de depart
+		int positionBStart = Character.getNumericValue(num.charAt(1))+97;
+		char asciiBStart = (char) positionBStart;
+		String resultBStart = Character.toString(asciiBStart);
+
+		//Pour la position A d'arrivee
+		int positionAEnd = Character.getNumericValue(num.charAt(2));
+		int valeurAEnd = 8-Integer.valueOf(positionAEnd);
+		String resultAEnd = String.valueOf(valeurAEnd);
+
+		// Pour la position B de depart
+		int positionBEnd = Character.getNumericValue(num.charAt(3))+97;
+		char asciiBEnd = (char) positionBEnd;
+		String resultBEnd = Character.toString(asciiBEnd);
+
+		result = resultBStart + resultAStart + resultBEnd + resultAEnd;
+
+		return result;
+	}
 
 	//Lit les mouvements transmis par Arena et les applique au chessBoard. 
 	//La liste de mouvements recus par Arena sont deja isoles dans la classe UCI. 
@@ -70,7 +130,7 @@ public class Environment {
 					//d'une pièce noire, idem
 					chessBoard[iEnd][jEnd] = Character.toString(Character.toUpperCase(move.charAt(5)));
 				}
-			//Si non, si c'est un mouvement classique, on place simplement la pièce à l'arrivee
+				//Si non, si c'est un mouvement classique, on place simplement la pièce à l'arrivee
 			}
 			else{
 				chessBoard[iEnd][jEnd] = temp;
@@ -80,7 +140,7 @@ public class Environment {
 
 	// Prend en entree un String move de la forme :
 	//idepart jdepart iarrivee jarrivee piececapturee promotionverspiece
-	
+
 	public void move(String move) {
 		// Nous devons envoyer dans cette methode le formalisme en 6 donnees
 
@@ -173,7 +233,7 @@ public class Environment {
 		return (move.equals("7476  ") || move.equals("0406  ") ||
 				move.equals("7472  ") || move.equals("0402  "));
 	}
-	
+
 	//Cette fonction effectue le mouvement de roque (petit ou grand)
 	public void makeCastlingMove(int aStart, int bStart, int aEnd, int bEnd){
 		this.chessBoard[aEnd][bEnd] = this.chessBoard[aStart][bStart]; //position du roi
@@ -188,74 +248,12 @@ public class Environment {
 			this.chessBoard[aEnd][0] = " ";
 		}	
 	}
-	
 
-	// Permet de transformer un mouvement en nombre pour notre tableau. Par exemple : b2b3 => 1615. Cela sera compris par le mouvement chessBoard[6][1] => chessBoard[5][1]
-	public static String parseAmoveToCBmove(String move) {
-
-		String result = "";
-
-		// Pour la position X de depart
-		int asciiStart = (int) move.charAt(0);
-		int positionXStart = asciiStart-97;
-		String resultPositionXStart = String.valueOf(positionXStart);
-		// Pour la position Y de depart
-		int positionYStart = 8-Character.getNumericValue(move.charAt(1));
-		String resultPositionYStart = String.valueOf(positionYStart);
-
-		// Pour la position X d'arrivee
-		int asciiEnd = (int) move.charAt(2);
-		int positionXEnd = asciiEnd-97;
-		String resultPositionXEnd = String.valueOf(positionXEnd);
-		// Pour la position Y d'arrivee	
-		int positionYEnd = 8-Character.getNumericValue(move.charAt(3));
-		String resultPositionYEnd = String.valueOf(positionYEnd);
-
-		//Si le mouvement contient une information de promotion
-		String promot = " ";
-		if(move.length()==5){
-			promot = move.substring(4);
-		}
-
-		result = resultPositionYStart+resultPositionXStart+resultPositionYEnd+resultPositionXEnd+" "+promot;
-
-		return result;
-	}
-
-	// Permet de transformer une action de notre moteur en un format classique. Par exemple : 6151 => b2b3.
-	public static String parseCBmoveToAmove(String num) {
-
-		String result = "";
-
-		//Pour la position A de depart
-		int positionAStart = Character.getNumericValue(num.charAt(0));
-		int valeurAStart = 8-Integer.valueOf(positionAStart);
-		String resultAStart = String.valueOf(valeurAStart);
-
-		// Pour la position B de depart
-		int positionBStart = Character.getNumericValue(num.charAt(1))+97;
-		char asciiBStart = (char) positionBStart;
-		String resultBStart = Character.toString(asciiBStart);
-
-		//Pour la position A d'arrivee
-		int positionAEnd = Character.getNumericValue(num.charAt(2));
-		int valeurAEnd = 8-Integer.valueOf(positionAEnd);
-		String resultAEnd = String.valueOf(valeurAEnd);
-
-		// Pour la position B de depart
-		int positionBEnd = Character.getNumericValue(num.charAt(3))+97;
-		char asciiBEnd = (char) positionBEnd;
-		String resultBEnd = Character.toString(asciiBEnd);
-
-		result = resultBStart + resultAStart + resultBEnd + resultAEnd;
-
-		return result;
-	}
 
 	//Teste si on est dans une situation de fin de jeu 
 	//(ie. plus de mouvement possible pour un des joueurs : echec et mat)
 	public boolean gameOver() {
-		return Moves.legalMove(this, true).isEmpty() || Moves.legalMove(this, false).isEmpty();
+		return Moves.legalMoves(this, true).isEmpty() || Moves.legalMoves(this, false).isEmpty();
 	}
 
 	// Affiche l'etat du tableau dans la console

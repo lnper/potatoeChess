@@ -44,7 +44,7 @@ public class Evaluation {
 		int [] result = new int [26] ;
 		//result[i] contient : 
 		//i=0 : le nombre de pieces blanches encore en jeu
-		//i=1 : le nombre de pieces noires encore en jeu
+		//i=1 : le nombre de pieces noires encore en jeu (Nous ne prenons finalement pas se core en compte pour notre heuristique)
 		//i=2 à 7 : le nombre de pieces blanches de chaque type (R,N,B,Q,K, P)
 		//i=8 à 13 : le nombre de pieces noires de chaque type (r, n, b, q, k, p)
 		//i=14 à 19 : le nombre de point par type de pièces blanches en fonction de leur positions 

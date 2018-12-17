@@ -6,7 +6,8 @@ import environnement.Environment;
 
 
 /*	
- * Cette classe permet la communication avec Arena. Il s'agit du langage UCI, pour Universal Chess Interface. Pour plus d'infos, aller sur la page http://wbec-ridderkerk.nl/html/UCIProtocol.html.
+ * Cette classe permet la communication avec Arena. Il s'agit du langage UCI, pour Universal Chess Interface. 
+ *Pour plus d'infos : http://wbec-ridderkerk.nl/html/UCIProtocol.html.
  */
 
 public class UCI {
@@ -111,18 +112,6 @@ public class UCI {
 			board = new Environment();
 			board.initialize();
 		}
-
-	/*	else if (input.contains(FEN)) {
-			input = input.substring(FEN.length()+1);
-
-			if(input.length()>1) {
-				Board.importFEN(input);
-				if(input.contains(" w ")) isWhite = true;
-				else if(input.contains(" b ")) isWhite = false;
-			}
-
-		}
-*/
 		// Prendre en consideration l'ensemble des mouvements ordonnes
 		if (input.contains(MOVES)) {
 
@@ -168,7 +157,6 @@ public class UCI {
 
 	}
 
-
 	// Quitter l'uci
 	public static void inputQuit() {
 		System.exit(0);
@@ -183,13 +171,4 @@ public class UCI {
 		else player = "noirs";
 		System.out.println("Nous jouons les "+player);
 	}
-
-
-
-	/* ---------------------------------------------------------------------------------------------------------------------------------------------------
-	 * ----------------------------------------------------------------- Methodes utiles ----------------------------------------------------------------- 
-	 * ---------------------------------------------------------------------------------------------------------------------------------------------------
-	 */ 
-
-
 }

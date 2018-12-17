@@ -6,7 +6,7 @@ import environnement.Environment;
 
 public class Moves {
 
-	public static ArrayList<String> legalMove(Environment board, boolean isWhite){
+	public static ArrayList<String> legalMoves(Environment board, boolean isWhite){
 		ArrayList<String> possibleMoveList= new ArrayList<String>();
 		//On parcours le plateau pour ajouter a chaque fois les mouvements possibles
 		String[][] chessBoard = board.getChessBoard();
@@ -19,22 +19,22 @@ public class Moves {
 				String pieceAnalysee = chessBoard[i][j];
 				
 				if(pieceAnalysee.equals(pieces[0])) //Si c'est un pion
-					possibleMoveList.addAll(legalMoveP(board, isWhite, i, j));
+					possibleMoveList.addAll(legalMovesPawn(board, isWhite, i, j));
 				
 				else if(pieceAnalysee.equals(pieces[1])) //Si c'est une tour
-					possibleMoveList.addAll(legalMoveR(board, isWhite, i, j));
+					possibleMoveList.addAll(legalMovesRook(board, isWhite, i, j));
 				
 				else if(pieceAnalysee.equals(pieces[2])) //Si c'est un cavalier
-					possibleMoveList.addAll(legalMoveN(board, isWhite, i, j));
+					possibleMoveList.addAll(legalMovesKnight(board, isWhite, i, j));
 				
 				else if(pieceAnalysee.equals(pieces[3])) //si c'est un fou
-					possibleMoveList.addAll(legalMoveB(board, isWhite, i, j));
+					possibleMoveList.addAll(legalMovesBishop(board, isWhite, i, j));
 				
 				else if(pieceAnalysee.equals(pieces[4])) //Si c'est une reine
-					possibleMoveList.addAll(legalMoveQ(board, isWhite, i, j));
+					possibleMoveList.addAll(legalMovesQueen(board, isWhite, i, j));
 				
 				else if(pieceAnalysee.equals(pieces[5])) //Si c'est un roi
-					possibleMoveList.addAll(legalMoveK(board, isWhite, i, j));
+					possibleMoveList.addAll(legalMovesKing(board, isWhite, i, j));
 			}
 		}
 		return possibleMoveList;
@@ -49,18 +49,18 @@ public class Moves {
 	}
 
 	//mouvements legaux des pions en position i,j
-	public static ArrayList<String> legalMoveP(Environment board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMovesPawn(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possiblePawnMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 
 
-		boolean firstPawnMove; 
-		boolean penultimateLane;
-		boolean basicMoveArea;
-		int moveDirection;
-		int lastLane;
+		boolean firstPawnMove; //Est ce que le pion a boujé de sa pos initiale
+		boolean penultimateLane; //Est ce que le pion est sur l'avant derniere ligne?
+		boolean basicMoveArea; //Zone ou les pions n'avance que d'une case
+		int moveDirection; //Direction de déplacement du pion (-1 blanc, 1 noir)
+		int lastLane; //Est ce que le pion est sur la ligne de promotion
 		String[] promot;
-		if(isWhite){
+		if(isWhite){ //On règle les paramètres en fonction de la couleur du pion
 			firstPawnMove=(i==6);
 			penultimateLane=(i==1);
 			basicMoveArea=(i>=2);
@@ -77,20 +77,18 @@ public class Moves {
 			promot=new String[]{"q","r","b","k"};
 		}
 		//mouvement 2 en avant
-		//N:1 resp B:6
 		if(firstPawnMove && isEmptyCase(chessBoard[i+moveDirection][j]) && isEmptyCase(chessBoard[i+2*moveDirection][j])){
 			if(simulateMoveForKingCheck(board, isWhite, i, j, i+2*moveDirection, j)){
 				possiblePawnMoves.add(""+i+j+(i+2*moveDirection)+(j)+" "+" ");
 			}
 		}
-		// N: i<=5   B:i>=2
+	
 		//mouvement de 1 en avant sans promotion
 		if(basicMoveArea && isEmptyCase(chessBoard[i+moveDirection][j])){
 			if(simulateMoveForKingCheck(board, isWhite, i, j, i+moveDirection, j)){
 				possiblePawnMoves.add(""+i+j+(i+moveDirection)+(j)+" "+" ");
 			}
 		}
-		//N:6  B:1
 		//mouvement de 1 en avant avec promotion
 		if(penultimateLane && isEmptyCase(chessBoard[lastLane][j])){
 			for(String piece:promot){
@@ -127,7 +125,7 @@ public class Moves {
 	}
 
 	//mouvements legaux des tours en position i,j
-	public static ArrayList<String> legalMoveR(Environment board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMovesRook(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleRookMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		int distance=1;
@@ -155,7 +153,7 @@ public class Moves {
 	}
 
 	//mouvements legaux des cavaliers en position i,j
-	public static ArrayList<String> legalMoveN(Environment board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMovesKnight(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleKnightMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		for(int k=-2; k<=2; k++){
@@ -174,7 +172,7 @@ public class Moves {
 	}
 
 	//mouvements legaux des fous en position i,j
-	public static ArrayList<String> legalMoveB(Environment board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMovesBishop(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleBishopMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		int distance=1;
@@ -202,7 +200,7 @@ public class Moves {
 	}
 
 	//mouvements legaux de la reine en position i,j
-	public static ArrayList<String> legalMoveQ(Environment board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMovesQueen(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleQueenMoves = new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		int distance=1;
@@ -230,7 +228,7 @@ public class Moves {
 	}
 
 	//mouvements legaux du roi en position i,j
-	public static ArrayList<String> legalMoveK(Environment board, boolean isWhite, int i, int j){
+	public static ArrayList<String> legalMovesKing(Environment board, boolean isWhite, int i, int j){
 		ArrayList<String> possibleKingMoves= new ArrayList<>();
 		String[][] chessBoard = board.getChessBoard();
 		for(int k=-1; k<=1; k++){
@@ -253,8 +251,6 @@ public class Moves {
 		//Cette fonction simule le mouvement d'une piece de (i,j) à (ni, nj) pour s'assurer 
 		//que le mouvement ne met pas le roi en echec
 		//Elle renvoie true si le mouvement est légal et false sinon
-
-		//TODO : réécrire la fonction avec les méthodes move et unmove
 
 		String[][] chessBoard = board.getChessBoard();
 
@@ -290,13 +286,14 @@ public class Moves {
 		//Echecs par les pions
 		boolean isCheck1 = checkByDiagonallyMovingPieces(board, isWhite, kingPosI, kingPosJ);
 		boolean isCheck2 = checkcheckByAlongRankMovingPieces(board, isWhite, kingPosI, kingPosJ);
-		boolean isCheck3 = checkByNights(board, isWhite, kingPosI, kingPosJ);
+		boolean isCheck3 = checkByKnights(board, isWhite, kingPosI, kingPosJ);
 		boolean isCheck4 = checkByPawns(board, isWhite, kingPosI, kingPosJ);
 
 		return (isCheck1 || isCheck2 || isCheck3 || isCheck4);
 	}
 
 	private static boolean checkByPawns(Environment board, boolean isWhite, int kingPosI, int kingPosJ) {
+		//calcul en echec par les pions
 		String[][] chessBoard = board.getChessBoard();
 		int pawnDirection;
 		if(isWhite){
@@ -316,7 +313,7 @@ public class Moves {
 		return false;
 	}
 
-	private static boolean checkByNights(Environment board, boolean isWhite, int kingPosI, int kingPosJ) {
+	private static boolean checkByKnights(Environment board, boolean isWhite, int kingPosI, int kingPosJ) {
 		String[][] chessBoard = board.getChessBoard();
 		//calcul en echec par les cavaliers :
 		for(int k=-2; k<=2; k++){
@@ -334,6 +331,7 @@ public class Moves {
 
 	private static boolean checkcheckByAlongRankMovingPieces(Environment board, boolean isWhite, int kingPosI, int kingPosJ) {
 		String[][] chessBoard = board.getChessBoard();
+		//Calcul en echec par ligne droite (Reine, Tours)
 		int distance=1;
 		for(int k=-1; k<=1; k++){
 			for(int l=-1; l<=1; l++){
